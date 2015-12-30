@@ -201,7 +201,7 @@
                     ctx.fillText(text, x, y);
                     */
 
-                    ctx.font = "36px Arial";
+                    ctx.font = "36px Droid Sans";
                     
                     textLength = (customtext.length * customtext.charsize)/2;
                     /*
@@ -430,10 +430,10 @@
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header page-scroll">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();">
-                            <span class="glyphicon glyphicon-option-vertical" style="color:white;"></span>
+                            <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                         </button>
                         <a class="navbar-brand" style="font-family: 'Righteous', cursive;"><!--span class="glyphicon glyphicon-magnet"></span-->
-                            Jeungbuito
+                            <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;<B>長輩圖生成器</B>
                         </a>
                     </div>
 
@@ -445,7 +445,7 @@
                             </li>
                             <li class="page-scroll">
 
-                                <a href="#" onclick=""><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing</a>
+                                <a href="#" onclick="alert('Version: 0.0.1');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
 
                             </li>
                             
@@ -469,12 +469,20 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="panel-body" id="ap_cal-content">
-                        <div class="input-group input-group-sm">
+
+                    <div class="panel-body">
+                    </div>
+
+                    <div id="photo">
+                        <canvas id="canvas">Canvas not supported</canvas>
+                    </div>
+
+                    <div class="panel-body" id="inputboxes">
+                        <div class="input-group">
                             <span class="input-group-addon"><input type="color" id="mycolor" value="#ffffff"></span>
-                            <input type="text" class="form-control" placeholder="0" aria-describedby="basic-addon1" id="words" value="同意請分享">
+                            <span class="input-group-addon" onclick="alert('hello')"><span class="glyphicon glyphicon-text-size"></span></span>
+                            <input type="text" class="form-control" placeholder="0" aria-describedby="basic-addon1" id="words" value="認同請分享">
                         </div>
-                        
                     </div>
 
                     <span id="fontsizetest"></span>
@@ -483,9 +491,7 @@
                     <p id="testing3">testing testing </p>
                     <p id="testing4">testing testing </p>
 
-                    <div id="photo">
-                        <canvas id="canvas">Canvas not supported</canvas>
-                    </div>
+                    
                 </div>
                 
             </div>
@@ -498,13 +504,13 @@
                         <button class="btn btn-info btn-lg" type="button" onclick="getImage();" ><span id="icon" class="glyphicon glyphicon-picture"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-default btn-lg" type="button" onclick="" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
+                        <button class="btn btn-warning btn-lg" type="button" onclick="" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-success btn-lg" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-warning btn-lg" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
+                        <button class="btn btn-danger btn-lg" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
                     </div>
                 </div>
             </div>
