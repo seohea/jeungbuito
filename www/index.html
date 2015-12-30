@@ -210,6 +210,11 @@
                     ctx.clearRect(0, 0, WIDTH, HEIGHT);
                 }
 
+                manual_clear = function man_clear() {
+                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    rects = [];
+                }
+
                 // redraw the scene
                 function draw() {
                     clear();
@@ -318,6 +323,21 @@
                 }
 
             });
+
+            function getImage() {
+                navigator.camera.getPicture(onSuccess, onFailure, {
+                    destinationType: navigator.camera.DestinationType.FILE_URI,
+                    sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                });
+            }
+
+            function onSuccess(imageURI) {
+                alert("Image location is:"+ imageURI);
+            }
+
+            function onFailure(message) {
+                alert("Get image failed: " + message);
+            }
 
 
             /*
@@ -439,6 +459,7 @@
             <div class="container">
                 <div class="row">
                     <div class="panel-body" id="ap_cal-content">
+                        <button onclick="getImage();">Get Image</button>
                         <div class="input-group input-group-sm">
                             <span class="input-group-addon" id="basic-addon1">Text</span>
                             <input type="text" class="form-control" placeholder="0" aria-describedby="basic-addon1" id="words" value="Type sth">
@@ -448,7 +469,7 @@
                                 <button class="btn btn-primary" type="button" onclick="add();" >SET!</button>
                             </div>
                             <div class="btn-group btn-group-sm" role="group" id="ap-remove-btn">
-                                <button class="btn btn-primary" type="button" onclick="" >Clear!</button>
+                                <button class="btn btn-primary" type="button" onclick="manual_clear();" >Clear!</button>
                             </div>
                         </div>
                     </div>
