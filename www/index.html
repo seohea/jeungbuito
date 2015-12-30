@@ -80,6 +80,13 @@
                 border: 2px solid black;
             }
 
+            #fontsizetest{
+                display: none;
+                text-transform: none !important;
+                font-size: 36px !important;
+                font-family: "Arial" !important;
+            }
+
         </style>
 
         <title>Juengbuito</title>
@@ -97,8 +104,15 @@
 
             $(document).ready(function() {
                 var canvas = document.getElementById("canvas");
-                canvas.width = $("#photo").width();
-                canvas.height = $("#photo").height();
+                canvas.width = $("#photo").width()*2;
+                canvas.height = $("#photo").height()*2;
+
+                canvas.style.width=$("#photo").width()+"px";//actual width of canvas
+                canvas.style.height=$("#photo").height()+"px";//actual height of canvas
+
+                canvas.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, false);
                 //WIDTH = $("#photo").width();
                 //HEIGHT = $("#photo").height();
 
@@ -111,6 +125,7 @@
                 // get canvas related references
                 //var canvas=document.getElementById("canvas");
                 var ctx=canvas.getContext("2d");
+                ctx.scale(2,2);
                 var BB=canvas.getBoundingClientRect();
                 var offsetX=BB.left;
                 var offsetY=BB.top;
@@ -131,18 +146,33 @@
                 //rects.push({x:200-35,y:50-35,width:30,height:30,fill:"blue",isDragging:false,text:"third text",len:(("third text".length * 24)/2)});
 
                 // listen for mouse events
-                canvas.onmousedown = myDown;
-                canvas.onmouseup = myUp;
-                canvas.onmousemove = myMove;
+                //canvas.onmousedown = myDown;
+                //canvas.onmouseup = myUp;
+                //canvas.onmousemove = myMove;
+
+                $('#canvas').on('touchstart', function(e){
+                    myDown(e);
+                    $("#testing").text("Down");
+                });
+                $('#canvas').on('touchend', function(e){
+                    myUp(e);
+                    $("#testing").text("up");
+                });
+                $('#canvas').on('touchmove', function(e){
+                    myMove(e);
+                    $("#testing").text("move");
+                });
 
                 add = function addwords(){
+                    $("#fontsizetest").text($("#words").val());
                     var arr = {};
                     arr.x = 200+rects.length*30;
                     arr.y = 50+rects.length*30;
                     arr.fill = "black";
                     arr.isDragging = false;
                     arr.text = $("#words").val();
-                    arr.len = (arr.text.length * 24)/2;
+                    arr.len = $('#fontsizetest').width();
+                    arr.charsize = 36;
                     rects.push(arr);
 
 
@@ -163,8 +193,8 @@
                     ctx.fillText(text, x, y);
                     */
 
-                    ctx.font = "24px Arial";
-                    textLength = (customtext.length * 24)/2;
+                    ctx.font = "36px Arial";
+                    textLength = (customtext.length * customtext.charsize)/2;
                     /*
                     ctx.beginPath();
                     ctx.rect(x,y,w,h);
@@ -191,21 +221,23 @@
                         ctx.fillStyle=r.fill;
                         //rect(x - textLength/2, y + 15, textLength, 30);
                         //rect(r.x,r.y,r.width,r.height);
-                        rect(r.x-r.len/2,r.y+15,r.text);
+                        rect(r.x-r.len/2,r.y+r.charsize,r.text);
                     }
                 }
 
 
                 // handle mousedown events
                 function myDown(e){
-
                     // tell the browser we're handling this mouse event
                     e.preventDefault();
                     e.stopPropagation();
 
                     // get the current mouse position
-                    var mx=parseInt(e.clientX-offsetX);
-                    var my=parseInt(e.clientY-offsetY);
+                    //var mx=parseInt(e.clientX-offsetX);
+                    //var my=parseInt(e.clientY-offsetY);
+                    var mx=parseInt(e.originalEvent.touches[0].pageX-offsetX);
+                    var my=parseInt(e.originalEvent.touches[0].pageY-offsetY);
+                    $("#testing2").text(mx + ", "+my);
 
                     // test each rect to see if mouse is inside
                     dragok=false;
@@ -213,7 +245,10 @@
                         var r=rects[i];
                         //if (e.pageX < x + textLength + canvas.offsetLeft && e.pageX > x - textLength + canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop && e.pageY > y -15 + canvas.offsetTop){
                         //if(mx>r.x && mx<r.x+r.width && my>r.y && my<r.y+r.height){
-                        if(mx>r.x-r.len/2 && mx<r.x+r.len/2 && my>r.y && my<r.y+30/2){  
+                        $("#testing3").text(mx + ">"+(r.x-r.len/2) +" | "+mx+"<"+(r.x+r.len/2));
+                        $("#testing4").text(my + ">"+(r.y) +" | "+my+"<"+(r.y+r.charsize));
+
+                        if(mx>r.x-r.len/2 && mx<r.x+r.len/2 && my>r.y && my<r.y+r.charsize){  
                             // if yes, set that rects isDragging=true
                             dragok=true;
                             r.isDragging=true;
@@ -251,8 +286,10 @@
 
 
                       // get the current mouse position
-                      var mx=parseInt(e.clientX-offsetX);
-                      var my=parseInt(e.clientY-offsetY);
+                      //var mx=parseInt(e.clientX-offsetX);
+                      //var my=parseInt(e.clientY-offsetY);
+                      var mx=parseInt(e.originalEvent.touches[0].pageX-offsetX);
+                      var my=parseInt(e.originalEvent.touches[0].pageY-offsetY);
 
                       // calculate the distance the mouse has moved
                       // since the last mousemove
@@ -416,10 +453,14 @@
                         </div>
                     </div>
 
+                    <span id="fontsizetest"></span>
+                    <p id="testing">testing testing </p>
+                    <p id="testing2">testing testing </p>
+                    <p id="testing3">testing testing </p>
+                    <p id="testing4">testing testing </p>
 
                     <div id="photo">
                         <canvas id="canvas">Canvas not supported</canvas>
-
                     </div>
                 </div>
                 
