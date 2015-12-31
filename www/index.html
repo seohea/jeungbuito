@@ -367,9 +367,6 @@
             }
 
             function saveImage(){
-                img_url = "https://upload.wikimedia.org/wikipedia/commons/b/b4/JPEG_example_JPG_RIP_100.jpg";
-                bgpic(img_url);
-                /*
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         alert(msg);
@@ -381,7 +378,6 @@
                     '.jpg'
                 );
                 alert("Called saveImage");
-                */
             }
 
 
@@ -451,6 +447,9 @@
                 });
                 */
                 //alert(navigator.camera);
+                alert(window.canvas2ImagePlugin);
+                alert(window.plugins.canvas2ImagePlugin);
+                
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
                 //alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
