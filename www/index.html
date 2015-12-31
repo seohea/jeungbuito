@@ -221,11 +221,20 @@
 
                 // clear the canvas
                 function clear() {
-                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    try{
+                        bgpic();
+                    }catch (err){
+                        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    }
                 }
 
                 manual_clear = function man_clear() {
-                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    try{
+                        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                        bgpic();
+                    }catch (err){
+                        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    }
                     rects = [];
                 }
 
@@ -233,7 +242,7 @@
                 function draw() {
                     clear();
                     //ctx.fillStyle = "#FAF7F8";
-                    rect(0,0,WIDTH,HEIGHT);
+                    //rect(0,0,WIDTH,HEIGHT);
                     // redraw each rect in the rects[] array
                     for(var i=0;i<rects.length;i++){
                         var r=rects[i];
@@ -246,9 +255,10 @@
                 }
 
                 bgpic = function background_pic(src){
+                    //alert(src);
                     var imageObj = new Image();
                     imageObj.src = src;
-                    context.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
+                    ctx.drawImage(imageObj, 0, 0, WIDTH, HEIGHT);
                 }
 
 
@@ -360,7 +370,7 @@
             }
 
             function saveImage(){
-                
+                bgpic("http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg");
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         alert(msg);
@@ -440,7 +450,7 @@
                   publisherId:"ca-app-pub-9969581706012169/5605224331"
                 });
                 */
-                alert(navigator.camera);
+                //alert(navigator.camera);
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
                 alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
@@ -453,7 +463,7 @@
             }
 
             function onResume() {
-                alert(navigator.camera);
+                //alert(navigator.camera);
             }
 
             document.addEventListener("deviceready", onDeviceReady, false);
