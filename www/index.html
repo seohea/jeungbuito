@@ -247,19 +247,23 @@
                 }
 
                 saveImage = function final_draw(){
-                    var imageObj = new Image();
-                    imageObj.src = src;
-                    ctx.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
+                    try{
+                        clear();
 
-                    //$("#canvas").css("background", "none");
+                        var imageObj = new Image();
+                        imageObj.src = img_url;
+                        ctx.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height() );
 
-                    for(var i=0;i<rects.length;i++){
-                        var r=rects[i];
-                        ctx.fillStyle = r.mycolor;
-                        rect(r.x-r.len/2,r.y+r.charsize,r.text);
-                    }
+                        //$("#canvas").css("background", "none");
 
-                    saveAll();
+                        for(var i=0;i<rects.length;i++){
+                            var r=rects[i];
+                            ctx.fillStyle = r.mycolor;
+                            rect(r.x-r.len/2,r.y+r.charsize,r.text);
+                        }
+
+                        saveAll();
+                    }catch(err){}
                 }
 
                 bgpic = function background_pic(src){
