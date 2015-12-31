@@ -222,18 +222,11 @@
 
                 // clear the canvas
                 function clear() {
-                    try{
-                        bgpic(img_url);
-                    }catch (err){}
+                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
                 }
 
                 manual_clear = function man_clear() {
-                    try{
-                        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-                        //bgpic(img_url);
-                    }catch (err){
-                        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-                    }
+                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
                     rects = [];
                 }
 
@@ -255,9 +248,13 @@
 
                 bgpic = function background_pic(src){
                     //alert(src);
+                    /*
                     var imageObj = new Image();
                     imageObj.src = src;
-                    ctx.drawImage(imageObj, 0, 0, WIDTH, HEIGHT);
+                    ctx.drawImage(imageObj, 0, 0, canvas.style.width, canvas.style.height);
+                    */
+                    $("#canvas").css("background-image", "url("+src+")");
+                    $("#canvas").css("background-size", "cover");
                 }
 
 
@@ -370,7 +367,7 @@
             }
 
             function saveImage(){
-                img_url = "https://www.google.com.hk/logos/doodles/2015/new-years-eve-2015-5985438795825152.2-res.png";
+                img_url = "https://upload.wikimedia.org/wikipedia/commons/b/b4/JPEG_example_JPG_RIP_100.jpg";
                 bgpic(img_url);
                 /*
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
@@ -456,7 +453,7 @@
                 //alert(navigator.camera);
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
-                alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
+                //alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
                 
 
                 document.addEventListener("backbutton", function(e){
