@@ -337,9 +337,10 @@
 
             function getImage() {
                 navigator.camera.getPicture(onSuccess, onFailure, {
-                    destinationType: navigator.camera.DestinationType.FILE_URI,
-                    sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                    destinationType: destinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
                 });
+                alert("Called getImage");
             }
 
             function onSuccess(imageURI) {
@@ -348,6 +349,19 @@
 
             function onFailure(message) {
                 alert("Get image failed: " + message);
+            }
+
+            function saveImage(){
+                window.canvas2ImagePlugin.saveImageDataToLibrary(
+                    function(msg){
+                        alert(msg);
+                    },
+                    function(err){
+                        alert(err);
+                    },
+                    document.getElementById('canvas'),'.jpg',80,'jeungbuito'
+                );
+                alert("Called saveImage");
             }
 
 
@@ -432,7 +446,7 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();">
                             <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                         </button>
-                        <a class="navbar-brand" style="font-family: 'Righteous', cursive;"><!--span class="glyphicon glyphicon-magnet"></span-->
+                        <a class="navbar-brand" style="font-family: 'Righteous', cursive; font-size: 26px; "><!--span class="glyphicon glyphicon-magnet"></span-->
                             <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;<B>長輩圖生成器</B>
                         </a>
                     </div>
@@ -504,7 +518,7 @@
                         <button class="btn btn-info btn-lg" type="button" onclick="getImage();" ><span id="icon" class="glyphicon glyphicon-picture"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-warning btn-lg" type="button" onclick="" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
+                        <button class="btn btn-warning btn-lg" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-success btn-lg" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></span></button>
