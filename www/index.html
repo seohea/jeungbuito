@@ -103,6 +103,10 @@
         <script type="text/javascript" src="js/GALocalStorage.js"></script>
 
         <script type="text/javascript">
+
+            var pictureSource;   // picture source
+            var destinationType; // sets the format of returned value
+
             //var xpos = 50;
             //var ypos = 50;
 
@@ -335,8 +339,10 @@
 
             });
 
-            function getImage() {
-                
+            function getImage(source) {
+                navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+                    destinationType: destinationType.FILE_URI,
+                    sourceType: source });
                 alert("Called getImage");
             }
 
@@ -422,6 +428,7 @@
                 canvas.onmousemove = null;
             }
             */
+
             function onDeviceReady() {
                 /*
                 admob.createBannerView({
@@ -431,7 +438,7 @@
                 alert(navigator.camera);
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
-                alert(pictureSource + "\n"+destinationType);
+                alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
                 
 
                 document.addEventListener("backbutton", function(e){
@@ -538,7 +545,7 @@
             <div class="container">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info btn-lg" type="button" onclick="getImage();" ><span id="icon" class="glyphicon glyphicon-picture"></button>
+                        <button class="btn btn-info btn-lg" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-warning btn-lg" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
