@@ -336,9 +336,7 @@
             });
 
             function getImage() {
-                navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-                    destinationType: destinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.CAMERA });
+                
                 alert("Called getImage");
             }
 
@@ -431,6 +429,9 @@
                 });
                 */
                 alert(navigator.camera);
+                pictureSource=navigator.camera.PictureSourceType;
+                destinationType=navigator.camera.DestinationType;
+                alert(pictureSource + "\n"+destinationType);
                 
 
                 document.addEventListener("backbutton", function(e){
