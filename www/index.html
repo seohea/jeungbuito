@@ -245,6 +245,12 @@
                     }
                 }
 
+                bgpic = function background_pic(src){
+                    var imageObj = new Image();
+                    imageObj.src = src;
+                    context.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
+                }
+
 
                 // handle mousedown events
                 function myDown(e){
@@ -343,11 +349,10 @@
                 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
                     destinationType: destinationType.FILE_URI,
                     sourceType: source });
-                alert("Called getImage");
             }
 
             function onPhotoURISuccess(imageURI) {
-                alert("Image location is:"+ imageURI);
+                bgpic(imageURI);
             }
 
             function onFail(message) {
