@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.seo.jeungbuito" version="0.0.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.seo.jeungbuito" version="0.0.2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <feature name="Compass">
         <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener" />
@@ -51,9 +51,6 @@
     <preference name="android-installLocation" value="auto" />
     <preference name="EnableViewportScale" value="true" />
     <preference name="android-build-tool" value="gradle" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
     <icon src="logo.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/36.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/48" />
