@@ -249,9 +249,9 @@
                 saveImage = function final_draw(){
                     var imageObj = new Image();
                     imageObj.src = src;
-                    context.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
+                    ctx.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
 
-                    $("#canvas").css("background", "none");
+                    //$("#canvas").css("background", "none");
 
                     for(var i=0;i<rects.length;i++){
                         var r=rects[i];
