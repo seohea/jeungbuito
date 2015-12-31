@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.2.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.2.1">
   <name>jeungbuito</name>
   <description>jeungbuito</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
@@ -22,7 +22,6 @@
   <preference name="android-build-tool" value="gradle" />
   <plugin name="cordova-admob" spec="4.1.6" />
   <plugin name="de.appplant.cordova.plugin.local-notification" />
-  <plugin name="Canvas2ImagePlugin" value="Canvas2ImagePlugin"/>
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-feature android:name="android.hardware.camera" />
   <uses-feature android:name="android.hardware.camera.autofocus" />
