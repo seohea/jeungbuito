@@ -246,6 +246,22 @@
                     }
                 }
 
+                saveImage = function final_draw(){
+                    var imageObj = new Image();
+                    imageObj.src = src;
+                    context.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height());
+
+                    $("#canvas").css("background", "none");
+
+                    for(var i=0;i<rects.length;i++){
+                        var r=rects[i];
+                        ctx.fillStyle = r.mycolor;
+                        rect(r.x-r.len/2,r.y+r.charsize,r.text);
+                    }
+
+                    saveAll();
+                }
+
                 bgpic = function background_pic(src){
                     //alert(src);
                     /*
@@ -255,6 +271,7 @@
                     */
                     $("#canvas").css("background-image", "url("+src+")");
                     $("#canvas").css("background-size", "cover");
+                    $("#canvas").css("background-position", "0 0");
                 }
 
 
@@ -366,7 +383,7 @@
                 alert("Get image failed: " + message);
             }
 
-            function saveImage(){
+            function saveAll(){
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         alert(msg);
@@ -378,7 +395,6 @@
                     '.jpg'
                 );
             }
-
 
             /*
             var canvas;
