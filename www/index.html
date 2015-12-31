@@ -336,30 +336,32 @@
             });
 
             function getImage() {
-                navigator.camera.getPicture(onSuccess, onFailure, {
+                
+                navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
                     destinationType: destinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-                });
+                    sourceType: Camera.PictureSourceType.CAMERA });
                 alert("Called getImage");
             }
 
-            function onSuccess(imageURI) {
+            function onPhotoURISuccess(imageURI) {
                 alert("Image location is:"+ imageURI);
             }
 
-            function onFailure(message) {
+            function onFail(message) {
                 alert("Get image failed: " + message);
             }
 
             function saveImage(){
-                window.canvas2ImagePlugin.saveImageDataToLibrary(
+                
+                window.plugins.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         alert(msg);
                     },
                     function(err){
                         alert(err);
                     },
-                    document.getElementById('canvas'),'.jpg',80,'jeungbuito'
+                    document.getElementById("canvas"),
+                    '.jpg'
                 );
                 alert("Called saveImage");
             }
