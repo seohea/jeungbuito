@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.8">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.9">
   <name>jeungbuito</name>
   <description>jeungbuito</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
@@ -23,7 +23,7 @@
   <plugin name="cordova-admob" spec="4.1.6" />
   <plugin name="de.appplant.cordova.plugin.local-notification" />
   <gap:plugin name="org.apache.cordova.camera" />
-  <gap:plugin name="org.apache.cordova.file" />
+  <plugin name="org.apache.cordova.file" source="pgb" spec="1.1.0" />
   <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.media" />
   <plugin name="org.wbt11a.canvas2imageplugin" source="pgb" spec="0.7.1"/>
