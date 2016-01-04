@@ -172,9 +172,9 @@
 
                 resize = function photo_resize(imgsrc){
 
-                    var img = new Image();
-                    img.src = imgsrc;
-                    img.onload = function() {
+                    var photo = new Image();
+                    photo.src = imgsrc;
+                    photo.onload = function() {
                         var w = window.innerWidth;
                         var img_width = this.width;
                         var img_height = this.height;
@@ -189,7 +189,7 @@
                         canvas.style.height=new_height+"px";
                     
                         init();
-                        bgpic(img_url);
+                        bgpic(imgsrc);
                     }
                     
                 }
@@ -561,7 +561,7 @@
                             </li>
                             <li class="page-scroll">
                                 <a href="#" onclick="alert('Version: Testing (V0.0.4)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
-                                <a href="#" onclick="resize();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing btn</a>
+                                <a href="#" onclick="resize('http://www.google.com/intl/en_ALL/images/logo.gif');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing btn</a>
                             </li>
                             
                         </ul>
@@ -615,17 +615,17 @@
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <div class="container" style="padding:0px;">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <div class="btn-group btn-group btn-group-sm" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"><p id="caption">圖片</p></button>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></button>
                     </div>
-                    <div class="btn-group btn-group btn-group-sm" role="group" id="ap-remove-btn">
-                        <button class="btn btn-warning" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"><p id="caption">儲存</p></button>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-warning" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
                     </div>
-                    <div class="btn-group btn-group btn-group-sm" role="group" id="ap-remove-btn">
-                        <button class="btn btn-success" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"><p id="caption">文字</p></button>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-success" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></button>
                     </div>
-                    <div class="btn-group btn-group btn-group-sm" role="group" id="ap-remove-btn">
-                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"><p id="caption">清除</p></button>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
                     </div>
                 </div>
             </div>
