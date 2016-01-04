@@ -130,7 +130,13 @@
                     e.preventDefault();
                 }, false);
 
-                init();
+                var ctx=canvas.getContext("2d");
+                ctx.scale(2,2);
+                var BB=canvas.getBoundingClientRect();
+                var offsetX=BB.left;
+                var offsetY=BB.top;
+                var WIDTH = canvas.width;
+                var HEIGHT = canvas.height;
 
                 //WIDTH = $("#photo").width();
                 //HEIGHT = $("#photo").height();
@@ -144,9 +150,7 @@
                 // get canvas related references
                 //var canvas=document.getElementById("canvas");
 
-                var ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
-
-                function init(){
+                function re_init(){
                     ctx=canvas.getContext("2d");
                     ctx.scale(2,2);
                     BB=canvas.getBoundingClientRect();
@@ -188,7 +192,7 @@
                         canvas.style.width=new_width+"px";
                         canvas.style.height=new_height+"px";
                     
-                        init();
+                        re_init();
                         bgpic(imgsrc);
                     }
                     
