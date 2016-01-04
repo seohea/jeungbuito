@@ -130,7 +130,7 @@
                     e.preventDefault();
                 }, false);
 
-                init();
+                re_initi();
 
                 //WIDTH = $("#photo").width();
                 //HEIGHT = $("#photo").height();
@@ -146,7 +146,7 @@
 
                 var ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
 
-                function init(){
+                function re_initi(){
                     ctx=canvas.getContext("2d");
                     ctx.scale(2,2);
                     BB=canvas.getBoundingClientRect();
@@ -188,7 +188,7 @@
                         canvas.style.width=new_width+"px";
                         canvas.style.height=new_height+"px";
                     
-                        init();
+                        re_initi();
                         bgpic(imgsrc);
                     }
                     
@@ -504,6 +504,7 @@
                   publisherId:"ca-app-pub-9969581706012169/5605224331"
                 });
                 */
+                alert(cordova.file);
                 alert(navigator.camera);
                 alert(window.canvas2ImagePlugin);
 

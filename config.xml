@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.7">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.8">
   <name>jeungbuito</name>
   <description>jeungbuito</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
@@ -26,11 +26,11 @@
   <gap:plugin name="org.apache.cordova.file" />
   <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.media" />
-  <plugin name="org.wbt11a.canvas2imageplugin" spec="0.7.1" source="pgb" />
+  <plugin name="org.wbt11a.canvas2imageplugin" source="pgb" spec="0.7.1"/>
   <!--plugin name="org.apache.cordova.console" source="pgb"/-->
-  <!--plugin name="org.apache.cordova.device" source="pgb" spec="0.3.0" /-->
+  <plugin name="org.apache.cordova.device" source="pgb" spec="0.3.0" />
   <!--plugin name="org.apache.cordova.device-motion" source="pgb" spec="0.2.11" /-->
-  <plugin name="org.apache.cordova.device-orientation" source="pgb" spec="0.3.11" />
+  <!--plugin name="org.apache.cordova.device-orientation" source="pgb" spec="0.3.11" /-->
   <!--plugin name="org.apache.cordova.dialogs" source="pgb" spec="0.3.0" /-->
   <!--plugin name="org.apache.cordova.media" source="pgb" spec="0.2.16" />
   <plugin name="org.apache.cordova.media-capture" source="pgb" spec="0.3.6" /-->
