@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.6">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.4.7">
   <name>jeungbuito</name>
   <description>jeungbuito</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
@@ -36,7 +36,7 @@
   <plugin name="org.apache.cordova.media-capture" source="pgb" spec="0.3.6" /-->
   <!--plugin name="org.apache.cordova.network-information" source="pgb" spec="0.2.15" />
   <plugin name="org.apache.cordova.splashscreen" source="pgb" spec="1.0.0" /-->
-  <plugin name="org.apache.cordova.vibration" source="pgb" spec="0.3.13" />
+  <!--plugin name="org.apache.cordova.vibration" source="pgb" spec="0.3.13" /-->
   <feature name="Camera">
     <param name="android-package" value="org.apache.cordova.CameraLauncher"/>
   </feature>

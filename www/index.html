@@ -79,7 +79,7 @@
                 background-color: black;
             }
 
-            #fontsizetest{
+            #inserfontsize{
                 display: none;
                 text-transform: none !important;
                 font-size: 36px !important;
@@ -91,7 +91,11 @@
             }
 
             #icon{
-                font-size: 25px;
+                font-size: 22px;
+            }
+
+            #caption{
+                font-size: 14px;
             }
 
         </style>
@@ -125,6 +129,9 @@
                 canvas.addEventListener('touchmove', function(e) {
                     e.preventDefault();
                 }, false);
+
+                init();
+
                 //WIDTH = $("#photo").width();
                 //HEIGHT = $("#photo").height();
 
@@ -136,13 +143,19 @@
 
                 // get canvas related references
                 //var canvas=document.getElementById("canvas");
-                var ctx=canvas.getContext("2d");
-                ctx.scale(2,2);
-                var BB=canvas.getBoundingClientRect();
-                var offsetX=BB.left;
-                var offsetY=BB.top;
-                var WIDTH = canvas.width;
-                var HEIGHT = canvas.height;
+
+                var ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
+
+                function init(){
+                    ctx=canvas.getContext("2d");
+                    ctx.scale(2,2);
+                    BB=canvas.getBoundingClientRect();
+                    offsetX=BB.left;
+                    offsetY=BB.top;
+                    WIDTH = canvas.width;
+                    HEIGHT = canvas.height;
+                }
+                
 
                 // drag related variables
                 var dragok = false;
@@ -156,6 +169,30 @@
                 //rects.push({x:200-15,y:50-15,width:30,height:30,fill:"black",isDragging:false,text:"First text is very long",len:(("First text is very long".length * 24)/2)});
                 //rects.push({x:200-25,y:50-25,width:30,height:30,fill:"grey",isDragging:false,text:"Second text",len:(("Second text".length * 24)/2)});
                 //rects.push({x:200-35,y:50-35,width:30,height:30,fill:"blue",isDragging:false,text:"third text",len:(("third text".length * 24)/2)});
+
+                resize = function photo_resize(imgsrc){
+
+                    var photo = new Image();
+                    photo.src = imgsrc;
+                    photo.onload = function() {
+                        var w = window.innerWidth;
+                        var img_width = this.width;
+                        var img_height = this.height;
+
+                        var new_width = w;
+                        var new_height = Math.floor((w*img_height)/img_width);
+
+                        canvas.width = new_width*2;
+                        canvas.height = new_height*2;
+
+                        canvas.style.width=new_width+"px";
+                        canvas.style.height=new_height+"px";
+                    
+                        init();
+                        bgpic(imgsrc);
+                    }
+                    
+                }
 
                 // listen for mouse events
                 //canvas.onmousedown = myDown;
@@ -176,14 +213,14 @@
                 });
 
                 add = function addwords(){
-                    $("#fontsizetest").text($("#words").val());
+                    $("#inserfontsize").text($("#words").val());
                     var arr = {};
-                    arr.x = 200+rects.length*30;
+                    arr.x = 100+rects.length*30;
                     arr.y = 50+rects.length*30;
                     arr.fill = "black";
                     arr.isDragging = false;
                     arr.text = $("#words").val();
-                    arr.len = $('#fontsizetest').width();
+                    arr.len = $('#inserfontsize').width();
                     arr.charsize = 36;
                     arr.mycolor = $("#mycolor").val();
                     rects.push(arr);
@@ -380,7 +417,7 @@
 
             function onPhotoURISuccess(imageURI) {
                 img_url = imageURI;
-                bgpic(img_url);
+                resize(img_url);
             }
 
             function onFail(message) {
@@ -399,6 +436,8 @@
                     '.jpg'
                 );
             }
+
+            
 
             /*
             var canvas;
@@ -465,13 +504,12 @@
                   publisherId:"ca-app-pub-9969581706012169/5605224331"
                 });
                 */
-                //alert(navigator.camera);
-                //alert(window.canvas2ImagePlugin);
-                //alert(window.plugins.canvas2ImagePlugin);
+                alert(navigator.camera);
+                alert(window.canvas2ImagePlugin);
 
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
-                //alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
+                alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
                 
 
                 document.addEventListener("backbutton", function(e){
@@ -510,7 +548,7 @@
                             <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                         </button>
                         <a class="navbar-brand" style="font-family: 'Righteous', cursive; font-size: 26px; "><!--span class="glyphicon glyphicon-magnet"></span-->
-                            <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;<B>長輩圖生成器</B>
+                            <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;<B>長輩圖</B>
                         </a>
                     </div>
 
@@ -521,9 +559,8 @@
                                 <a href="#page-top"></a>
                             </li>
                             <li class="page-scroll">
-
-                                <a href="#" onclick="alert('Version: 0.0.1');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
-
+                                <a href="#" onclick="alert('Version: Testing (V0.0.4)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
+                                <a href="#" onclick="resize('http://www.google.com/intl/en_ALL/images/logo.gif');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing btn</a>
                             </li>
                             
                         </ul>
@@ -547,12 +584,8 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="panel-body">
-                    </div>
-
-                    <div id="photo">
-                        <canvas id="canvas">Canvas not supported</canvas>
-                    </div>
+                    <!--div class="panel-body">
+                    </div-->
 
                     <div class="panel-body" id="inputboxes">
                         <div class="input-group">
@@ -562,7 +595,11 @@
                         </div>
                     </div>
 
-                    <span id="fontsizetest"></span>
+                    <div id="photo">
+                        <canvas id="canvas">Canvas not supported</canvas>
+                    </div>
+
+                    <span id="inserfontsize"></span>
                     <p id="testing">testing testing </p>
                     <p id="testing2">testing testing </p>
                     <p id="testing3">testing testing </p>
@@ -575,19 +612,19 @@
         </div>
 
         <nav class="navbar navbar-default navbar-fixed-bottom">
-            <div class="container">
+            <div class="container" style="padding:0px;">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info btn-lg" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></button>
+                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-warning btn-lg" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
+                        <button class="btn btn-warning" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-success btn-lg" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></span></button>
+                        <button class="btn btn-success" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-danger btn-lg" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
+                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
                     </div>
                 </div>
             </div>
