@@ -70,9 +70,8 @@
 
             #photo{
                 height: 60vh; 
-                width: 90vw; 
+                width: 100vw; 
                 display: block;
-                margin: 0 auto;
             }
 
             #canvas{
@@ -188,6 +187,8 @@
 
                         canvas.style.width=new_width+"px";
                         canvas.style.height=new_height+"px";
+
+                        $("#photo").height(new_height);
                     
                         re_initi();
                         bgpic(imgsrc);
@@ -290,7 +291,7 @@
 
                         var imageObj = new Image();
                         imageObj.src = img_url;
-                        ctx.drawImage(imageObj, 0, 0, canvas.style.width, canvas.style.height );
+                        ctx.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height() );
 
                         //$("#canvas").css("background", "none");
 
@@ -439,6 +440,11 @@
                 );
             }
 
+            function preview_text(){
+                $("#word_sample").text($("#words").val());
+                $("#word_sample").css("color", $("#mycolor").val());
+                $("#word_sample").css("font-size", "36px");
+            }
             
 
             /*
@@ -595,9 +601,13 @@
 
                     <div class="panel-body" id="inputboxes">
                         <div class="input-group">
-                            <span class="input-group-addon"><input type="color" id="mycolor" value="#ffffff"></span>
-                            <span class="input-group-addon" onclick="alert('hello')"><span class="glyphicon glyphicon-text-size"></span></span>
-                            <input type="text" class="form-control" placeholder="0" aria-describedby="basic-addon1" id="words" value="認同請分享">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span class="glyphicon glyphicon-text-size"></span></button>
+                            </span>
+                            <input type="text" class="form-control" id="words" value="認同請分享">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button" onclick="add();"><span class="glyphicon glyphicon-plus"></span></button>
+                            </span>
                         </div>
                     </div>
 
@@ -611,10 +621,46 @@
                     <p id="testing3">testing testing </p>
                     <p id="testing4">testing testing </p>
 
-                    
                 </div>
-                
             </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title" id="myModalLabel">字型設定</h4>
+              </div>
+              <div class="modal-body">
+                <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-bold"/></button>
+                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-italic"/></button>
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="glyphicon glyphicon-text-height"></span>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">小小</a></li>
+                        <li><a href="#">小</a></li>
+                        <li><a href="#">中</a></li>
+                        <li><a href="#">大</a></li>
+                        <li><a href="#">大大</a></li>
+                    </ul>
+                  </div>
+                  <span class="input-group-addon"><input type="color" id="mycolor" value="#cccccc"></span>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <span id="word_sample"></span>
+                <br><hr>
+                <button class="btn btn-success" onclick="preview_text();"><span class="glyphicon glyphicon-refresh"></span>&nbsp;預覽</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <nav class="navbar navbar-default navbar-fixed-bottom">
