@@ -82,7 +82,6 @@
             #inserfontsize{
                 display: none;
                 text-transform: none !important;
-                font-size: 36px !important;
                 font-family: "Arial" !important;
             }
 
@@ -92,9 +91,10 @@
 
             #icon{
                 font-size: 22px;
+                line-height: 80%;
             }
 
-            #caption{
+            .icon_caption{
                 font-size: 14px;
             }
 
@@ -126,10 +126,23 @@
                 canvas.style.width=$("#photo").width()+"px";//actual width of canvas
                 canvas.style.height=$("#photo").height()+"px";//actual height of canvas
 
-                canvas.addEventListener('touchmove', function(e) {
-                    e.preventDefault();
-                }, false);
+                var is_lock = false;
 
+                lock_screen = function lock_scroll(){
+                    is_lock = !is_lock;
+
+                    canvas.addEventListener('touchmove', function(e) {
+                        e.preventDefault();
+                    }, (!is_lock));
+                    
+                    if(is_lock){
+                        $("#scroll_btn").html('<span id="icon" class="glyphicon glyphicon-move"></span><!--br><span class="icon_caption">解除鎖定</span-->');
+                    }else{
+                        $("#scroll_btn").html('<span id="icon" class="glyphicon glyphicon-pushpin"></span><!--br><span class="icon_caption">鎖定螢幕</span-->');
+                    }
+                }
+
+                lock_screen();
                 re_initi();
 
                 //WIDTH = $("#photo").width();
@@ -155,7 +168,22 @@
                     WIDTH = canvas.width;
                     HEIGHT = canvas.height;
                 }
+
+                var font_size;
+
+                changefontsize = function change_size(num){
+                    var size = [14,22,36,48,60];
+                    font_size = size[num];
+                    $('#inserfontsize').attr('style', 'font-size: '+font_size+'px !important');
+                }
                 
+                changefontsize(2);
+
+                preview_text = function preview_text(){
+                    $("#word_sample").text($("#words").val());
+                    $('#word_sample').attr('style', 'font-size: '+font_size+'px !important');
+                    $("#word_sample").css('color', $("#mycolor").val());
+                }
 
                 // drag related variables
                 var dragok = false;
@@ -223,11 +251,9 @@
                     arr.isDragging = false;
                     arr.text = $("#words").val();
                     arr.len = $('#inserfontsize').width();
-                    arr.charsize = 36;
+                    arr.charheight = font_size;
                     arr.mycolor = $("#mycolor").val();
                     rects.push(arr);
-
-
 
                     draw();
                 }
@@ -244,10 +270,9 @@
                     textLength = (text.length * 24)/2;
                     ctx.fillText(text, x, y);
                     */
-
-                    ctx.font = "36px Droid Sans";
+                    ctx.font = customtext.charheight+"px Droid Sans";
                     
-                    textLength = (customtext.length * customtext.charsize)/2;
+                    //textLength = (customtext.length * customtext.charheight)/2;
                     /*
                     ctx.beginPath();
                     ctx.rect(x,y,w,h);
@@ -255,7 +280,7 @@
                     ctx.fill();
                     
                     */
-                    ctx.fillText(customtext, x, y);
+                    ctx.fillText(customtext.text, x, y);
 
                 }
 
@@ -281,7 +306,7 @@
                         //rect(x - textLength/2, y + 15, textLength, 30);
                         //rect(r.x,r.y,r.width,r.height);
                         ctx.fillStyle = r.mycolor;
-                        rect(r.x-r.len/2,r.y+r.charsize,r.text);
+                        rect(r.x-r.len/2,r.y+r.charheight,r);
                     }
                 }
 
@@ -298,7 +323,7 @@
                         for(var i=0;i<rects.length;i++){
                             var r=rects[i];
                             ctx.fillStyle = r.mycolor;
-                            rect(r.x-r.len/2,r.y+r.charsize,r.text);
+                            rect(r.x-r.len/2,r.y+r.charheight,r.text);
                         }
 
                         saveAll();
@@ -338,9 +363,9 @@
                         //if (e.pageX < x + textLength + canvas.offsetLeft && e.pageX > x - textLength + canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop && e.pageY > y -15 + canvas.offsetTop){
                         //if(mx>r.x && mx<r.x+r.width && my>r.y && my<r.y+r.height){
                         $("#testing3").text(mx + ">"+(r.x-r.len/2) +" | "+mx+"<"+(r.x+r.len/2));
-                        $("#testing4").text(my + ">"+(r.y) +" | "+my+"<"+(r.y+r.charsize));
+                        $("#testing4").text(my + ">"+(r.y) +" | "+my+"<"+(r.y+r.charheight));
 
-                        if(mx>r.x-r.len/2 && mx<r.x+r.len/2 && my>r.y && my<r.y+r.charsize){  
+                        if(mx>r.x-r.len/2 && mx<r.x+r.len/2 && my>r.y && my<r.y+r.charheight){  
                             // if yes, set that rects isDragging=true
                             dragok=true;
                             r.isDragging=true;
@@ -440,12 +465,7 @@
                 );
             }
 
-            function preview_text(){
-                $("#word_sample").text($("#words").val());
-                $("#word_sample").css("color", $("#mycolor").val());
-                $("#word_sample").css("font-size", "36px");
-            }
-            
+
 
             /*
             var canvas;
@@ -630,7 +650,6 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
                 <h4 class="modal-title" id="myModalLabel">字型設定</h4>
               </div>
               <div class="modal-body">
@@ -643,21 +662,22 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">小小</a></li>
-                        <li><a href="#">小</a></li>
-                        <li><a href="#">中</a></li>
-                        <li><a href="#">大</a></li>
-                        <li><a href="#">大大</a></li>
+                        <li><a onclick="changefontsize(0);">特小</a></li>
+                        <li><a onclick="changefontsize(1);">小</a></li>
+                        <li><a onclick="changefontsize(2);">中</a></li>
+                        <li><a onclick="changefontsize(3);">大</a></li>
+                        <li><a onclick="changefontsize(4);">特大</a></li>
                     </ul>
                   </div>
-                  <span class="input-group-addon"><input type="color" id="mycolor" value="#cccccc"></span>
+                  <span class="input-group-addon"><input type="color" id="mycolor" value="#ff0000"></span>
                 </div>
 
               </div>
               <div class="modal-footer">
                 <span id="word_sample"></span>
                 <br><hr>
-                <button class="btn btn-success" onclick="preview_text();"><span class="glyphicon glyphicon-refresh"></span>&nbsp;預覽</button>
+                <button class="btn btn-info" onclick="preview_text();"><span class="glyphicon glyphicon-refresh"></span>&nbsp;預覽</button>
+                <button class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認</button>
               </div>
             </div>
           </div>
@@ -667,16 +687,16 @@
             <div class="container" style="padding:0px;">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></button>
+                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></span><!--br><span class="icon_caption">開啟圖片</span--></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-warning" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></button>
+                        <button class="btn btn-warning" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></span><!--br><span class="icon_caption">儲存圖片</span--></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-success" type="button" onclick="add();" ><span id="icon" class="glyphicon glyphicon-plus"></button>
+                        <button class="btn btn-success" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></button>
+                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></span><!--br><span class="icon_caption">清除文字</span--></button>
                     </div>
                 </div>
             </div>
