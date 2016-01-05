@@ -70,8 +70,9 @@
 
             #photo{
                 height: 60vh; 
-                width: 100vw; 
+                width: 90vw; 
                 display: block;
+                margin: 0 auto;
             }
 
             #canvas{
@@ -289,7 +290,7 @@
 
                         var imageObj = new Image();
                         imageObj.src = img_url;
-                        ctx.drawImage(imageObj, 0, 0, $("#photo").width(), $("#photo").height() );
+                        ctx.drawImage(imageObj, 0, 0, canvas.style.width, canvas.style.height );
 
                         //$("#canvas").css("background", "none");
 
@@ -421,7 +422,8 @@
             }
 
             function onFail(message) {
-                alert("Get image failed: " + message);
+                //alert("Get image failed: " + message);
+                alert("沒有選取圖片");
             }
 
             function saveAll(){
@@ -504,14 +506,16 @@
                   publisherId:"ca-app-pub-9969581706012169/5605224331"
                 });
                 */
+                /*
                 alert("Start!");
                 alert(cordova.file);
                 alert(navigator.camera);
                 alert(window.canvas2ImagePlugin);
+                */
 
                 pictureSource=navigator.camera.PictureSourceType;
                 destinationType=navigator.camera.DestinationType;
-                alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
+                //alert(pictureSource.PHOTOLIBRARY+"\n"+pictureSource.SAVEDPHOTOALBUM + "\n"+destinationType);
                 
 
                 document.addEventListener("backbutton", function(e){
@@ -561,7 +565,7 @@
                                 <a href="#page-top"></a>
                             </li>
                             <li class="page-scroll">
-                                <a href="#" onclick="alert('Version: Testing (V0.0.4)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
+                                <a href="#" onclick="alert('Version: Testing (V0.0.5)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
                                 <a href="#" onclick="resize('http://www.google.com/intl/en_ALL/images/logo.gif');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing btn</a>
                             </li>
                             
