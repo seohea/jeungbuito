@@ -98,6 +98,21 @@
                 font-size: 14px;
             }
 
+            @font-face {
+              font-family: 'cwTeXKai';
+              font-style: normal;
+              font-weight: 500;
+              src: url(fonts/cwTeXKai-zhonly.eot);
+              src: url(fonts/cwTeXKai-zhonly.eot?#iefix) format('embedded-opentype'),
+                   url(fonts/cwTeXKai-zhonly.woff2) format('woff2'),
+                   url(fonts/cwTeXKai-zhonly.woff) format('woff'),
+                   url(fonts/cwTeXKai-zhonly.ttf) format('truetype');
+            }
+
+
+            /*font-size:19px; font-family: 'cwTeXKai', serif;*/
+            
+
         </style>
 
         <title>Juengbuito</title>
@@ -129,16 +144,19 @@
                 var is_lock = false;
 
                 lock_screen = function lock_scroll(){
-                    is_lock = !is_lock;
 
-                    canvas.addEventListener('touchmove', function(e) {
-                        e.preventDefault();
-                    }, (!is_lock));
-                    
                     if(is_lock){
-                        $("#scroll_btn").html('<span id="icon" class="glyphicon glyphicon-move"></span><!--br><span class="icon_caption">解除鎖定</span-->');
-                    }else{
+                        canvas.removeEventListener('touchmove', function(e) {
+                            e.preventDefault();
+                        }, false);
                         $("#scroll_btn").html('<span id="icon" class="glyphicon glyphicon-pushpin"></span><!--br><span class="icon_caption">鎖定螢幕</span-->');
+                        is_lock = false;
+                    }else{
+                        canvas.addEventListener('touchmove', function(e) {
+                            e.preventDefault();
+                        }, false);
+                        $("#scroll_btn").html('<span id="icon" class="glyphicon glyphicon-move"></span><!--br><span class="icon_caption">解除鎖定</span-->');
+                        is_lock = true;
                     }
                 }
 
@@ -169,7 +187,7 @@
                     HEIGHT = canvas.height;
                 }
 
-                var font_size;
+                var font_size, font_type;
 
                 changefontsize = function change_size(num){
                     var size = [14,22,36,48,60];
@@ -179,9 +197,18 @@
                 
                 changefontsize(2);
 
+                changefont = function change_font(num){
+                    font_type = num;
+                }
+
+                changefont(0);
+
                 preview_text = function preview_text(){
                     $("#word_sample").text($("#words").val());
-                    $('#word_sample').attr('style', 'font-size: '+font_size+'px !important');
+                    if (font_type == 0)
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important;');
+                    else
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important; font-family: "cwTeXKai", serif;');
                     $("#word_sample").css('color', $("#mycolor").val());
                 }
 
@@ -253,6 +280,7 @@
                     arr.len = $('#inserfontsize').width();
                     arr.charheight = font_size;
                     arr.mycolor = $("#mycolor").val();
+                    arr.myfont = font_type;
                     rects.push(arr);
 
                     draw();
@@ -270,8 +298,11 @@
                     textLength = (text.length * 24)/2;
                     ctx.fillText(text, x, y);
                     */
-                    ctx.font = customtext.charheight+"px Droid Sans";
-                    
+                    if(customtext.myfont == 0)
+                        ctx.font = customtext.charheight+"px Droid Sans";
+                    else if (customtext.myfont == 1)
+                        ctx.font = customtext.charheight+"px cwTeXKai";
+
                     //textLength = (customtext.length * customtext.charheight)/2;
                     /*
                     ctx.beginPath();
@@ -616,19 +647,7 @@
             <div class="container">
                 <div class="row">
 
-                    <!--div class="panel-body">
-                    </div-->
-
-                    <div class="panel-body" id="inputboxes">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <button class="btn btn-info" type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span class="glyphicon glyphicon-text-size"></span></button>
-                            </span>
-                            <input type="text" class="form-control" id="words" value="認同請分享">
-                            <span class="input-group-btn">
-                                <button class="btn btn-success" type="button" onclick="add();"><span class="glyphicon glyphicon-plus"></span></button>
-                            </span>
-                        </div>
+                    <div class="panel-body">
                     </div>
 
                     <div id="photo">
@@ -650,34 +669,49 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">字型設定</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title" id="myModalLabel">文字設定</h4>
               </div>
               <div class="modal-body">
                 <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-bold"/></button>
-                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-italic"/></button>
+                  <button type="button" class="btn btn-primary" onclick="preview_text();"><span class="glyphicon glyphicon-bold"/></button>
+                  <button type="button" class="btn btn-primary" onclick="preview_text();"><span class="glyphicon glyphicon-italic"/></button>
                   <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <span class="glyphicon glyphicon-text-height"></span>
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a onclick="changefontsize(0);">特小</a></li>
-                        <li><a onclick="changefontsize(1);">小</a></li>
-                        <li><a onclick="changefontsize(2);">中</a></li>
-                        <li><a onclick="changefontsize(3);">大</a></li>
-                        <li><a onclick="changefontsize(4);">特大</a></li>
+                        <li><a onclick="changefontsize(0); preview_text();">特小</a></li>
+                        <li><a onclick="changefontsize(1); preview_text();">小</a></li>
+                        <li><a onclick="changefontsize(2); preview_text();">中</a></li>
+                        <li><a onclick="changefontsize(3); preview_text();">大</a></li>
+                        <li><a onclick="changefontsize(4); preview_text();">特大</a></li>
                     </ul>
                   </div>
-                  <span class="input-group-addon"><input type="color" id="mycolor" value="#ff0000"></span>
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="glyphicon glyphicon-font"></span>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="changefont(0); preview_text();" style="font-size:20px;">系統預設字型</a></li>
+                        <li><a onclick="changefont(1); preview_text();" style="font-size:20px; font-family: 'cwTeXKai', serif;">標楷體</a></li>
+                    </ul>
+                  </div>
+                  <span class="input-group-addon"><input type="color" id="mycolor" value="#ff0000" onchange="preview_text()"></span>
+
+                  <br>
+                  <input type="text" class="form-control" id="words" value="認同請分享" placeholder="在此輸入文字" oninput="preview_text();"/>
                 </div>
 
               </div>
               <div class="modal-footer">
                 <span id="word_sample"></span>
                 <br><hr>
-                <button class="btn btn-info" onclick="preview_text();"><span class="glyphicon glyphicon-refresh"></span>&nbsp;預覽</button>
-                <button class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認</button>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success" data-dismiss="modal" onclick="add();"><span class="glyphicon glyphicon-plus"></span>&nbsp;確認及添加</button>
+                </div>
               </div>
             </div>
           </div>
@@ -694,6 +728,9 @@
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-success" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
+                    </div>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-erase"></span><!--br><span class="icon_caption">清除文字</span--></button>
