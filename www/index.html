@@ -153,11 +153,15 @@
 
             $(document).ready(function() {
                 var canvas = document.getElementById("canvas");
-                canvas.width = $("#photo").width()*2;
-                canvas.height = $("#photo").height()*2;
 
-                canvas.style.width=$("#photo").width()+"px";//actual width of canvas
-                canvas.style.height=$("#photo").height()+"px";//actual height of canvas
+                init_canvas = function init_canvas(){
+                    canvas.width = $("#photo").width()*2;
+                    canvas.height = $("#photo").height()*2;
+
+                    canvas.style.width=$("#photo").width()+"px";//actual width of canvas
+                    canvas.style.height=$("#photo").height()+"px";//actual height of canvas
+                }
+                init_canvas();
 
                 var is_lock = false;
 
@@ -179,7 +183,7 @@
                 }
 
                 lock_screen();
-                re_initi();
+                
 
                 //WIDTH = $("#photo").width();
                 //HEIGHT = $("#photo").height();
@@ -195,7 +199,7 @@
 
                 var ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
 
-                function re_initi(){
+                re_initi = function re_initi(){
                     ctx=canvas.getContext("2d");
                     ctx.scale(2,2);
                     BB=canvas.getBoundingClientRect();
@@ -204,6 +208,7 @@
                     WIDTH = canvas.width;
                     HEIGHT = canvas.height;
                 }
+                re_initi();
 
                 var font_size, font_type;
 
@@ -308,6 +313,7 @@
                     arr.charheight = font_size;
                     arr.mycolor = $("#mycolor").val();
                     arr.myfont = font_type;
+                    arr.isstroke = is_stroke;
                     rects.push(arr);
 
                     draw();
@@ -361,7 +367,7 @@
                     
                     */
                     
-                    if(is_stroke){
+                    if(customtext.isstroke){
                         ctx.strokeStyle = "#"+invertHex(customtext.mycolor.substring(1));
                         ctx.lineWidth = Math.floor(font_size/7);
                         ctx.strokeText(customtext.text, x, y);
@@ -538,7 +544,12 @@
             function onPhotoURISuccess(imageURI) {
                 img_url = imageURI;
                 resize(img_url);
-                $("#reminder").remove();
+                $("#reminder").css('display','none');
+                $('.savebtn').prop('disabled', false);
+                $('.editbtn').prop('disabled', false);
+                $(".openbtn").attr('class', 'btn btn-primary openbtn');
+                $(".savebtn").attr('class', 'btn btn-info savebtn');
+                $(".editbtn").attr('class', 'btn btn-success editbtn');
             }
 
             function onFail(message) {
@@ -557,10 +568,25 @@
                     document.getElementById("canvas"),
                     '.jpg'
                 );
+
+                reset_canvas();
             }
 
 
-
+            function reset_canvas(){
+                manual_clear();
+                $("#photo").css("height", "60vh");
+                $("#photo").css("width", "100vh");
+                init_canvas();
+                re_initi();
+                $("#canvas").css("background-image", "none");
+                $("#reminder").css('display','block');
+                $('.savebtn').prop('disabled', true);
+                $('.editbtn').prop('disabled', true);
+                $(".openbtn").attr('class', 'btn btn-success openbtn');
+                $(".savebtn").attr('class', 'btn btn-primary savebtn');
+                $(".editbtn").attr('class', 'btn btn-primary editbtn');
+            }
             /*
             var canvas;
             var ctx;
@@ -670,10 +696,10 @@
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();" id="navbar_btn">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();" id="navbar_btn" style="border:0px;">
                             <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                         </button>
-                        <a class="navbar-brand" style="font-family: 'Righteous', cursive;  "><!--span class="glyphicon glyphicon-magnet"></span-->
+                        <a class="navbar-brand" style="font-size:22px;"><!--span class="glyphicon glyphicon-magnet"></span-->
                             <span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;<B>編輯圖片</B>
                         </a>
                     </div>
@@ -714,8 +740,8 @@
                     </div>
 
                     <div id="reminder">
-                        <p style="font-size:30px;"><span class="glyphicon glyphicon-picture"></span></p>
-                        <p style="font-size:16px;">請選取圖片</p>
+                        <p style="font-size:36px;"><span class="glyphicon glyphicon-picture"></span></p>
+                        <p style="font-size:20px;">請選取圖片</p>
                     </div>
 
                     <div id="photo">
@@ -742,8 +768,6 @@
               </div>
               <div class="modal-body">
                 <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-primary" onclick="preview_text();"><span class="glyphicon glyphicon-bold"/></button>
-                  <button type="button" class="btn btn-primary" onclick="preview_text();"><span class="glyphicon glyphicon-italic"/></button>
                   <button type="button" class="btn btn-primary tooltogglebtn" onclick="(is_stroke = (is_stroke)?false:true); preview_text();"><span class="glyphicon glyphicon-text-background"/></button>
                   <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -809,22 +833,22 @@
             <div class="container" style="padding:0px;">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></span><!--br><span class="icon_caption">開啟圖片</span--></button>
+                        <button class="btn btn-success openbtn" type="button" onclick="getImage(pictureSource.SAVEDPHOTOALBUM);" ><span id="icon" class="glyphicon glyphicon-picture"></span><br><span class="icon_caption">開啟圖片</span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-info" type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></span><!--br><span class="icon_caption">儲存圖片</span--></button>
+                        <button class="btn btn-primary savebtn" disabled type="button" onclick="saveImage();" ><span id="icon" class="glyphicon glyphicon-floppy-disk"></span><br><span class="icon_caption">儲存圖片</span></button>
                     </div>
                     <!--div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-default" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
                     </div-->
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span></button>
+                        <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span><br><span class="icon_caption">輸入文字</span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-danger" type="button" onclick="manual_clear_one();" ><span id="icon" class="glyphicon glyphicon-erase"></span><!--br><span class="icon_caption">清除文字</span--></button>
+                        <button class="btn btn-primary editbtn" disabled type="button" onclick="manual_clear_one();" ><span id="icon" class="glyphicon glyphicon-erase"></span><br><span class="icon_caption">清除文字</span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-danger" type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-trash"></span><!--br><span class="icon_caption">清除文字</span--></button>
+                        <button class="btn btn-primary editbtn" disabled type="button" onclick="manual_clear();" ><span id="icon" class="glyphicon glyphicon-trash"></span><br><span class="icon_caption">清除所有</span></button>
                     </div>
                 </div>
             </div>
