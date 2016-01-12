@@ -23,10 +23,16 @@
                 -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
                 -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
                 
-                
+                /*
                 background-image: url("img/bg6.png");
                 background-repeat: no-repeat;
                 background-size:cover;
+                */
+                background: url(img/bg6.png) no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
                 
                 /*background-position: center center; */
                 background-color:black;
@@ -698,7 +704,7 @@
             function editpage(){
                 //$("body").css('background-color','black');
                 $("#first_page").css('display','none');
-                $('body').attr('style', 'background-color:black; -webkit-transition: background 0.5s linear; -moz-transition: background 0.5s linear; -o-transition: background 0.5s linear; -ms-transition: background 0.5s linear; transition: background 0.5s linear; background-image:none;');
+                $('body').attr('style', 'background-color:black; background-image:none;');
                 $(".edit_class").css('display','block');
                 
                 $("#navbar_title").html('<span onclick="firstpage();"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;<B>編輯圖片</B></span>');
@@ -708,7 +714,7 @@
             function firstpage(){
                 //$("body").css('background-color','white');
                 $(".edit_class").css('display','none');
-                $('body').attr('style', 'background-color:black;  -webkit-transition: background 0.5s linear; -moz-transition: background 0.5s linear; -o-transition: background 0.5s linear; -ms-transition: background 0.5s linear; transition: background 0.5s linear; background-image: url("img/bg6.png"); background-repeat: no-repeat; background-size:cover;');
+                $('body').attr('style', 'background-color:black; background: url(img/bg6.png) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;');
                 $("#first_page").css('display','block');
                 
                 $("#navbar_title").html('<span onclick=""><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;<B>圖文字易</B></span>');
@@ -812,6 +818,10 @@
                 }, false);
                 */
                 current_page = 1;
+
+                document.addEventListener("resume", onResume, false);
+                document.addEventListener("backbutton", onBackKeyDown, false);
+
             }
 
             function onResume() {
@@ -833,9 +843,7 @@
             }
 
             document.addEventListener("deviceready", onDeviceReady, false);
-            document.addEventListener("resume", onResume, false);
-            document.addEventListener("backbutton", onBackKeyDown, false);
-
+            
             
 
         </script>
@@ -870,7 +878,10 @@
                             <a href="#page-top"></a>
                         </li>
                         <li class="page-scroll">
-                            <!--a href="#" onclick="alert('Version: Testing (V0.0.6)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a-->
+                            <a href="#" onclick="editpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;編輯圖片</a>
+                            <a href="#" data-toggle="modal" data-target="#infoModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;設計建議</a>
+                            <a href="#" data-toggle="modal" data-target="#tutorModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;使用教學</a>
+                            <a href="#" data-toggle="modal" data-target="#aboutModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;關於</a>
                         </li>
                         
                     </ul>
@@ -887,7 +898,7 @@
             <div class="container">
                 <div class="row">
                     <div id="header_well" class="well moveanimation">
-                      <h2>圖文字易</h2>
+                      <h1>圖文字易</h1>
                       <hr>
                       <h4 style="letter-spacing: 5px;"><span>長輩分享圖</span>/文字圖製造器</h4>
                     </div>
@@ -896,11 +907,11 @@
                         <table style="width:100%">
                             <tr>
                                 <td width="50%"><button type="button" class="btn btn-success btn-lg" onclick="editpage();" style="width:100%"><span class="glyphicon glyphicon-picture"></span><br>編輯圖片</button></td>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
+                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
                             </tr>
                             <tr>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-pencil"></span><br>使用建議</button></td>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-certificate"></span><br>關於</button></td>
+                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorModal" style="width:100%"><span class="glyphicon glyphicon-pencil"></span><br>使用教學</button></td>
+                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#aboutModal" style="width:100%"><span class="glyphicon glyphicon-certificate"></span><br>關於</button></td>
                             </tr>
                         </table>
                     </div>
@@ -1011,6 +1022,93 @@
                         <button class="btn btn-success" data-dismiss="modal" onclick="add(); add_history($('#words').val());"><span class="glyphicon glyphicon-plus"></span>&nbsp;確認及添加</button>
                     </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--infoModal-->
+        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title" id="myModalLabel">設計建議</h4>
+              </div>
+              <div class="modal-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">用途</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>『圖文字易』 方便用家在圖片上加上字句，例如可用作製造以下照片：</p>
+                            <ol>
+                                <li>長輩分享圖</li>
+                                <li>一般文字圖</li>
+                                <li>圖片上加上作家名字，防止偷圖轉載</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">長輩分享圖 （長輩圖）</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>長輩分享圖是一種長輩或家長會喜歡與朋友，後輩分享的圖片類型。通常內容包括祝福，分享，外國研究，養生之道，名人語錄，心靈語句。此外字形要大，顏色要鮮艷，及使用類似毛筆字體（標楷體）。</p>
+                            <p>建議步驟：</p>
+                            <ol>
+                                <li>選擇一張風景圖，名人圖，或宗教背景圖</li>
+                                <li>加上祝福句，例如早安，身體健康</li>
+                                <li>最後配上 『認同請分享』於圖片上</li>
+                                <li>儲存及分享給朋友親人</li>
+                            </ol>
+                        </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--tutorModal-->
+        <div class="modal fade" id="tutorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title" id="myModalLabel">使用教學</h4>
+              </div>
+              <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Panel title</h3>
+                        </div>
+                        <div class="panel-body">
+                            Panel content
+                        </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- aboutModal -->
+        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span></button>
+                <h4 class="modal-title" id="myModalLabel">關於</h4>
+              </div>
+              <div class="modal-body">
+                <h4>圖文字易</h4>
+                <ul>
+                  <li>版權所有 &copy; Seohea Production</li>
+                  <li>版本 Alpha 0.0.7</li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;關閉</button>
               </div>
             </div>
           </div>
