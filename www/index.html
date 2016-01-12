@@ -180,6 +180,7 @@
             var img_url;
             var is_stroke = false;
             var word_list = [];
+            var current_page;
 
             get_history();
             //var xpos = 50;
@@ -299,7 +300,10 @@
                 var startY;
 
                 // an array of objects that define different rectangles
-                var rects=[];
+                var rects;
+                if (rects == null){
+                    rects=[];
+                }
 
 
                 //rects.push({x:200-15,y:50-15,width:30,height:30,fill:"black",isDragging:false,text:"First text is very long",len:(("First text is very long".length * 24)/2)});
@@ -446,7 +450,7 @@
                 }
 
                 // redraw the scene
-                function draw() {
+                draw = function draw() {
                     clear();
                     //ctx.fillStyle = "#FAF7F8";
                     //rect(0,0,WIDTH,HEIGHT);
@@ -698,15 +702,17 @@
                 $(".edit_class").css('display','block');
                 
                 $("#navbar_title").html('<span onclick="firstpage();"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;<B>編輯圖片</B></span>');
+                current_page = 2;
             }
 
             function firstpage(){
                 //$("body").css('background-color','white');
                 $(".edit_class").css('display','none');
-                $('body').attr('style', 'background-color:black;  -webkit-transition: background 0.5s linear; -moz-transition: background 0.5s linear; -o-transition: background 0.5s linear; -ms-transition: background 0.5s linear; transition: background 0.5s linear; background-image: url("img/bg7.png"); background-repeat: no-repeat; background-size:cover;');
+                $('body').attr('style', 'background-color:black;  -webkit-transition: background 0.5s linear; -moz-transition: background 0.5s linear; -o-transition: background 0.5s linear; -ms-transition: background 0.5s linear; transition: background 0.5s linear; background-image: url("img/bg6.png"); background-repeat: no-repeat; background-size:cover;');
                 $("#first_page").css('display','block');
                 
                 $("#navbar_title").html('<span onclick=""><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;<B>圖文字易</B></span>');
+                current_page = 1;
             }
 
             function get_history(){
@@ -805,14 +811,31 @@
                    navigator.app.exitApp();  
                 }, false);
                 */
+                current_page = 1;
             }
 
             function onResume() {
-                //alert(navigator.camera);
+                alert("img_url: "+img_url+"\n"+"Rects:"+rects);
+                draw();
+            }
+
+            function onBackKeyDown() {
+                e.preventDefault();
+                if(current_page == 1){
+                    alert("quit app");
+                    navigator.app.exitApp();
+                }else if (current_page == 2){
+                    alert("back to main page");
+                    firstpage();
+                }else{
+                    alert("unknown current_page value!!");
+                }
             }
 
             document.addEventListener("deviceready", onDeviceReady, false);
             document.addEventListener("resume", onResume, false);
+            document.addEventListener("backbutton", onBackKeyDown, false);
+
             
 
         </script>
@@ -847,8 +870,7 @@
                             <a href="#page-top"></a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#" onclick="alert('Version: Testing (V0.0.6)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a>
-                            <a href="#" onclick="resize('http://www.google.com/intl/en_ALL/images/logo.gif');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;testing btn</a>
+                            <!--a href="#" onclick="alert('Version: Testing (V0.0.6)');"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;About</a-->
                         </li>
                         
                     </ul>
@@ -870,14 +892,14 @@
                       <h4 style="letter-spacing: 5px;"><span>長輩分享圖</span>/文字圖製造器</h4>
                     </div>
 
-                    <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0.1); box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);">
+                    <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0.1); ">
                         <table style="width:100%">
                             <tr>
                                 <td width="50%"><button type="button" class="btn btn-success btn-lg" onclick="editpage();" style="width:100%"><span class="glyphicon glyphicon-picture"></span><br>編輯圖片</button></td>
-                                <td width="50%"><button type="button" class="btn btn-info btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
+                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
                             </tr>
                             <tr>
-                                <td width="50%"><button type="button" class="btn btn-danger btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-pencil"></span><br>使用建議</button></td>
+                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-pencil"></span><br>使用建議</button></td>
                                 <td width="50%"><button type="button" class="btn btn-primary btn-lg" onclick="" style="width:100%"><span class="glyphicon glyphicon-certificate"></span><br>關於</button></td>
                             </tr>
                         </table>
