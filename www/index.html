@@ -28,7 +28,7 @@
                 background-repeat: no-repeat;
                 background-size:cover;
                 */
-                background: url(img/bg6.png) no-repeat center center fixed; 
+                background: url(img/bg5.jpg) no-repeat center center fixed; 
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
@@ -51,7 +51,7 @@
                 background-attachment:fixed;
                 */
 
-                padding-bottom: 70px;
+                margin-bottom: 70px;
                 
             }
 
@@ -160,6 +160,8 @@
                 font-family: "cwTeXKai", serif;
             }
 
+            .navbar { box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
+            
             #reminder{  
                 color:white;
                 z-index: 999; 
@@ -171,6 +173,7 @@
                 margin:5px; 
                 text-align:center;
             }​
+
         </style>
 
         <title>Juengbuito</title>
@@ -714,7 +717,7 @@
             function firstpage(){
                 //$("body").css('background-color','white');
                 $(".edit_class").css('display','none');
-                $('body').attr('style', 'background-color:black; background: url(img/bg6.png) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;');
+                $('body').attr('style', 'background-color:black; background: url(img/bg5.jpg) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;');
                 $("#first_page").css('display','block');
                 
                 $("#navbar_title").html('<span onclick=""><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;<B>圖文字易</B></span>');
@@ -830,7 +833,7 @@
             }
 
             function onBackKeyDown() {
-                e.preventDefault();
+                //e.preventDefault();
                 if(current_page == 1){
                     alert("quit app");
                     navigator.app.exitApp();
@@ -840,6 +843,7 @@
                 }else{
                     alert("unknown current_page value!!");
                 }
+                return false;
             }
 
             document.addEventListener("deviceready", onDeviceReady, false);
@@ -878,10 +882,10 @@
                             <a href="#page-top"></a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#" onclick="editpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;編輯圖片</a>
-                            <a href="#" data-toggle="modal" data-target="#infoModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;設計建議</a>
-                            <a href="#" data-toggle="modal" data-target="#tutorModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;使用教學</a>
-                            <a href="#" data-toggle="modal" data-target="#aboutModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-globe" style="color:#99ccff"></span>&nbsp;&nbsp;關於</a>
+                            <a href="#" onclick="editpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-picture" style="color:#99ccff"></span>&nbsp;&nbsp;編輯圖片</a>
+                            <a href="#" data-toggle="modal" data-target="#infoModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-sunglasses" style="color:#99ccff"></span>&nbsp;&nbsp;設計建議</a>
+                            <a href="#" data-toggle="modal" data-target="#tutorModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-pencil" style="color:#99ccff"></span>&nbsp;&nbsp;使用教學</a>
+                            <a href="#" data-toggle="modal" data-target="#aboutModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-certificate" style="color:#99ccff"></span>&nbsp;&nbsp;關於</a>
                         </li>
                         
                     </ul>
@@ -1079,12 +1083,45 @@
                 <h4 class="modal-title" id="myModalLabel">使用教學</h4>
               </div>
               <div class="modal-body">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
+                            <h3 class="panel-title">編輯圖片</h3>
                         </div>
                         <div class="panel-body">
-                            Panel content
+                            <table class="table table-bordered table-condensed">
+                                <tr>
+                                    <th>建議步驟</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>1.<br>開啟圖片</td>
+                                    <td><ul><li>選擇1: 從手機媒體匣中選取圖片</li><li>選擇2: 從互聯網中載入圖片 (請確認圖片網址正確)</li></ul></td>
+                                </tr>
+                                <tr>
+                                    <td>2.<br>輸入文字</td>
+                                    <td>
+                                        <ul>
+                                            <li>文字圍邊</li>
+                                            <li>文字大小</li>
+                                            <li>字體</li>
+                                            <li>文字顏色</li>
+                                            <li>熱門文字</li>
+                                            <li>輸入記錄</li>
+                                            <li>文字預覽</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>2.1<br>清除文字</td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.<br>儲存圖片</td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
               </div>
