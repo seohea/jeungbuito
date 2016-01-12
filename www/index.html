@@ -7,7 +7,7 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=0.5, maximum-scale=0.5, width=device-width" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
 
         <style type="text/css">
             * {
@@ -18,7 +18,11 @@
                 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
                 -webkit-tap-highlight-color: transparent;
             }
+            html{
+                height: 100%;
+            }
             body{
+                min-height: 100%;
                 -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
                 -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
                 -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
@@ -51,9 +55,8 @@
                 background-attachment:fixed;
                 */
 
-                /*
+                
                 padding-bottom: 70px;
-                */
                 
             }
 
@@ -163,6 +166,28 @@
             }
 
             .navbar { box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
+
+            .mhead{
+                background-color: #263238;
+                color:white;
+                border-bottom: 0px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            }
+
+            .close{
+                color: white !important;
+            }
+
+            .navbar-toggle.navbar-left {
+                float: left;
+                margin-left: 10px;
+                margin-right: 0px;
+            }
+
+            .navbar-collapse{
+                background-color: #37474F;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); 
+            }
 
             #reminder{  
                 color:white;
@@ -712,7 +737,7 @@
                 $('body').attr('style', 'background-color:black; background-image:none;');
                 $(".edit_class").css('display','block');
                 
-                $("#navbar_title").html('<span onclick="firstpage();"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;<B>編輯圖片</B></span>');
+                $("#navbar_title").html('<span><B>編輯圖片</B></span>');
                 current_page = 2;
             }
 
@@ -722,7 +747,7 @@
                 $('body').attr('style', 'background-color:black; background: url(img/bg5.jpg) no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;');
                 $("#first_page").css('display','block');
                 
-                $("#navbar_title").html('<span onclick=""><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;<B>圖文字易</B></span>');
+                $("#navbar_title").html('<span><B>圖文字易</B></span>');
                 current_page = 1;
             }
 
@@ -827,10 +852,11 @@
                 document.addEventListener("resume", onResume, false);
                 document.addEventListener("backbutton", onBackKeyDown, false);
 
+                draw();
             }
 
             function onResume() {
-                alert("img_url: "+img_url+"\n"+"Rects:"+rects);
+                //alert("img_url: "+img_url+"\n"+"Rects:"+rects);
                 draw();
             }
 
@@ -868,11 +894,11 @@
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();" id="navbar_btn" style="border:0px;">
+                    <button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="$('#about-panel').hide();" id="navbar_btn" style="border:0px;">
                         <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                     </button>
                     <a class="navbar-brand" style="font-size:22px;" id="navbar_title">
-                        <span onclick=""><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;<B>圖文字易</B></span>
+                        <span><B>圖文字易</B></span>
                     </a>
                 </div>
 
@@ -883,12 +909,12 @@
                             <a href="#page-top"></a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#" onclick="editpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-picture" style="color:#99ccff"></span>&nbsp;&nbsp;編輯圖片</a>
-                            <a href="#" data-toggle="modal" data-target="#infoModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-sunglasses" style="color:#99ccff"></span>&nbsp;&nbsp;設計建議</a>
-                            <a href="#" data-toggle="modal" data-target="#tutorModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-pencil" style="color:#99ccff"></span>&nbsp;&nbsp;使用教學</a>
-                            <a href="#" data-toggle="modal" data-target="#aboutModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-certificate" style="color:#99ccff"></span>&nbsp;&nbsp;關於</a>
+                            <a href="#" onclick="firstpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-home" style="color:white"></span>&nbsp;&nbsp;主頁</a>
+                            <a href="#" onclick="editpage(); $('.navbar-toggle').click();"><span class="glyphicon glyphicon-picture" style="color:white"></span>&nbsp;&nbsp;編輯圖片</a>
+                            <a href="#" data-toggle="modal" data-target="#infoModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-sunglasses" style="color:white"></span>&nbsp;&nbsp;設計建議</a>
+                            <a href="#" data-toggle="modal" data-target="#tutorModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-pencil" style="color:white"></span>&nbsp;&nbsp;使用教學</a>
+                            <a href="#" data-toggle="modal" data-target="#aboutModal" onclick="$('.navbar-toggle').click();"><span class="glyphicon glyphicon-certificate" style="color:white"></span>&nbsp;&nbsp;關於</a>
                         </li>
-                        
                     </ul>
                 </div>
             </div>
@@ -962,7 +988,7 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
                 <h4 class="modal-title" id="myModalLabel">文字設定</h4>
               </div>
@@ -1033,10 +1059,10 @@
         </div>
 
         <!--infoModal-->
-        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
                 <h4 class="modal-title" id="myModalLabel">設計建議</h4>
               </div>
@@ -1076,10 +1102,10 @@
         </div>
 
         <!--tutorModal-->
-        <div class="modal fade" id="tutorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal" id="tutorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
                 <h4 class="modal-title" id="myModalLabel">使用教學</h4>
               </div>
@@ -1134,8 +1160,7 @@
         <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span></button>
+              <div class="modal-header mhead">
                 <h4 class="modal-title" id="myModalLabel">關於</h4>
               </div>
               <div class="modal-body">
@@ -1156,12 +1181,17 @@
         <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">離開『圖文字易』</h4>
+              <div class="modal-header mhead">
+                <h4 class="modal-title">離開『圖文字易』? </h4>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
-                <button type="button" class="btn btn-danger" onclick="navigator.app.exitApp();" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;離開</button>
+              <div class="modal-body">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-danger" onclick="navigator.app.exitApp();" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;離開</button>
+                    </div>
               </div>
               </div>
             </div>
@@ -1172,7 +1202,7 @@
         <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <h4 class="modal-title" id="warningModalLabel">msg</h4>
               </div>
               <div class="modal-footer">
@@ -1186,7 +1216,7 @@
         <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
                 <h4 class="modal-title" id="myModalLabel">清除文字</h4>
               </div>
@@ -1214,7 +1244,7 @@
         <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">開啟圖片</h4>
               </div>
@@ -1238,9 +1268,9 @@
         <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">儲存圖片?</h4>
+                <h4 class="modal-title" id="myModalLabel">儲存圖片至本裝置？</h4>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
@@ -1254,13 +1284,19 @@
         <div class="modal fade" id="clearModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header mhead">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">清除所有文字?</h4>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
-                <button type="button" class="btn btn-success" onclick="manual_clear();" data-dismiss="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;清除</button>
+              <div class="modal-body">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-success" onclick="manual_clear();" data-dismiss="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;清除</button>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
