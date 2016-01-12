@@ -51,7 +51,9 @@
                 background-attachment:fixed;
                 */
 
-                margin-bottom: 70px;
+                /*
+                padding-bottom: 70px;
+                */
                 
             }
 
@@ -161,7 +163,7 @@
             }
 
             .navbar { box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); }
-            
+
             #reminder{  
                 color:white;
                 z-index: 999; 
@@ -835,13 +837,12 @@
             function onBackKeyDown() {
                 //e.preventDefault();
                 if(current_page == 1){
-                    alert("quit app");
-                    navigator.app.exitApp();
+                    $('#exitModal').modal('toggle');
+                    //navigator.app.exitApp();
                 }else if (current_page == 2){
-                    alert("back to main page");
                     firstpage();
                 }else{
-                    alert("unknown current_page value!!");
+
                 }
                 return false;
             }
@@ -908,7 +909,7 @@
                     </div>
 
                     <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0.1); ">
-                        <table style="width:100%">
+                        <table style="width:100%;">
                             <tr>
                                 <td width="50%"><button type="button" class="btn btn-success btn-lg" onclick="editpage();" style="width:100%"><span class="glyphicon glyphicon-picture"></span><br>編輯圖片</button></td>
                                 <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
@@ -1146,6 +1147,22 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;關閉</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- exitModal -->
+        <div class="modal fade" id="exitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">離開『圖文字易』</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
+                <button type="button" class="btn btn-danger" onclick="navigator.app.exitApp();" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;離開</button>
+              </div>
               </div>
             </div>
           </div>
