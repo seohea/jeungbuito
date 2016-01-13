@@ -711,7 +711,8 @@
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         saved_img_path = msg;
-                        share(saved_img_path);
+                        if(isshare)
+                            share(saved_img_path);
                         alert(msg);
                     },
                     function(err){
@@ -721,7 +722,7 @@
                     '.jpg'
                 );
 
-                reset_canvas();
+                draw();
             }
 
             function share(path){
@@ -737,7 +738,7 @@
                 );
             }
 
-
+            //no one called now
             function reset_canvas(){
                 manual_clear();
                 $("#photo").css("height", "60vh");
@@ -873,6 +874,10 @@
 
                 document.addEventListener("resume", onResume, false);
                 document.addEventListener("backbutton", onBackKeyDown, false);
+
+                admob.createBannerView({
+                  publisherId:"ca-app-pub-9969581706012169/4159269930"
+                });
 
                 draw();
             }
