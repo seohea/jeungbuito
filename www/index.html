@@ -700,6 +700,8 @@
                 $(".openbtn").attr('class', 'btn btn-primary openbtn');
                 $(".savebtn").attr('class', 'btn btn-info savebtn');
                 $(".editbtn").attr('class', 'btn btn-success editbtn');
+
+                admob.showInterstitialAd();
             }
 
             function onFail(message) {
@@ -713,10 +715,13 @@
                         saved_img_path = msg;
                         if(isshare)
                             share(saved_img_path);
-                        alert(msg);
+                        else
+                            alert("圖片儲存成功");
+
+                        admob.showInterstitialAd();
                     },
                     function(err){
-                        alert(err);
+                        alert("無法儲存圖片");
                     },
                     document.getElementById("canvas"),
                     '.jpg'
@@ -876,8 +881,24 @@
                 document.addEventListener("backbutton", onBackKeyDown, false);
 
                 admob.createBannerView({
-                  publisherId:"ca-app-pub-9969581706012169/4159269930"
+                  publisherId:"ca-app-pub-9969581706012169/4159269930",
+                  isTesting:true
                 });
+
+                admob.requestInterstitialAd({
+                  publisherId:"ca-app-pub-9969581706012169/4159269930",
+                  isTesting:true
+                });
+
+                /*
+                function onAdLoaded() {
+                    admob.showInterstitialAd();
+                    showNextInterstitial = setTimeout(function() {
+                      admob.requestInterstitialAd();
+                    }, 2 * 60 * 1000); // 2 minutes
+                  }
+                }
+                */
 
                 draw();
             }
