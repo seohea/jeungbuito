@@ -508,7 +508,7 @@
                     }
                 }
 
-                saveImage = function final_draw(){
+                saveImage = function final_draw(isshare){
                     try{
                         clear();
 
@@ -524,7 +524,7 @@
                             rect(r.x-r.len/2,r.y+r.charheight,r);
                         }
 
-                        saveAll();
+                        saveAll(isshare);
                     }catch(err){}
                 }
 
@@ -707,13 +707,12 @@
                 alert("沒有選取圖片");
             }
 
-            var saved_img_path = "";
-
-            function saveAll(){
+            function saveAll(isshare){
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
-                        alert(msg);
                         saved_img_path = msg;
+                        share(saved_img_path);
+                        alert(msg);
                     },
                     function(err){
                         alert(err);
@@ -725,15 +724,16 @@
                 reset_canvas();
             }
 
-            function share(){
+            function share(path){
+                path = "file://"+path;
                 //message, subject, file, url, [successCallback], [errorCallback]
                 window.plugins.socialsharing.share(
                     null,
                     null,
-                    "file://"+saved_img_path,
+                    path,
                     null,
-                    function(result) {alert('result: ' + result);},
-                    function(result) {alert('error: ' + result);}
+                    function(result) {alert('result: ' + result +", Path:"+path);},
+                    function(result) {alert('error: ' + result +", Path:"+path);}
                 );
             }
 
@@ -1311,7 +1311,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
-                <button type="button" class="btn btn-success" onclick="saveImage();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-saved"></span>&nbsp;儲存</button>
+                <button type="button" class="btn btn-success" onclick="saveImage(false);" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-saved"></span>&nbsp;儲存</button>
               </div>
             </div>
           </div>
@@ -1327,7 +1327,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
-                <button type="button" class="btn btn-success" onclick="saveAll();share();" data-dismiss="modal"><span class="glyphicon glyphicon-share"></span>&nbsp;儲存及分享</button>
+                <button type="button" class="btn btn-success" onclick="saveImage(true);" data-dismiss="modal"><span class="glyphicon glyphicon-share"></span>&nbsp;儲存及分享</button>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.8.5">
-  <name>jeungbuito</name>
-  <description>jeungbuito</description>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.8.6">
+  <name>圖文字易</name>
+  <description>長輩分享圖,文字圖製造器</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
@@ -21,6 +21,7 @@
   <preference name="EnableViewportScale" value="true" />
   <preference name="android-build-tool" value="gradle" />
   <preference name="KeepRunning" value="true"/>
+  <preference name="AndroidLaunchMode" value="singleTask" />
   <plugin name="cordova-admob" spec="4.1.6" />
   <plugin name="de.appplant.cordova.plugin.local-notification" />
   <gap:plugin name="org.apache.cordova.camera" />
