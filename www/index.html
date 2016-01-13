@@ -738,8 +738,8 @@
                     null,
                     path,
                     null,
-                    function(result) {alert('result: ' + result +", Path:"+path);},
-                    function(result) {alert('error: ' + result +", Path:"+path);}
+                    function(result) {/*alert('result: ' + result +", Path:"+path);*/},
+                    function(result) {/*alert('error: ' + result +", Path:"+path);*/}
                 );
             }
 
@@ -851,13 +851,45 @@
                 canvas.onmousemove = null;
             }
             */
+            function initAds() {
+                if (admob) {
+                    admob.setOptions({
+                        publisherId:      "ca-app-pub-9969581706012169/4159269930",
+                        interstitialAdId: "ca-app-pub-9969581706012169/4820247935",
+                        autoShowInterstitial: false,
+                        isTesting:true
+                    });
+
+                    registerAdEvents();
+
+                } else {
+                    alert('AdMobAds plugin not ready');
+                }
+            }
+
+            function registerAdEvents() {
+                //document.addEventListener(admob.events.onAdLoaded, onAdLoaded);
+                //document.addEventListener(admob.events.onAdFailedToLoad, function (e) {});
+                //document.addEventListener(admob.events.onAdOpened, function (e) {});
+                document.addEventListener(admob.events.onAdClosed, onAdClosed);
+                //document.addEventListener(admob.events.onAdLeftApplication, function (e) {});
+                //document.addEventListener(admob.events.onInAppPurchaseRequested, function (e) {});
+            }
+
+            /*
+            function onAdLoaded(e) {
+                if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
+                    admob.showInterstitialAd();
+                }
+            }
+            */
+
+            function onAdClosed(e){
+                admob.requestInterstitialAd();
+                alert("request new ad");
+            }
 
             function onDeviceReady() {
-                /*
-                admob.createBannerView({
-                  publisherId:"ca-app-pub-9969581706012169/5605224331"
-                });
-                */
                 /*
                 alert("Start!");
                 alert(cordova.file);
@@ -880,6 +912,12 @@
                 document.addEventListener("resume", onResume, false);
                 document.addEventListener("backbutton", onBackKeyDown, false);
 
+                initAds();
+
+                admob.createBannerView();
+
+                admob.requestInterstitialAd();
+                /*
                 admob.createBannerView({
                   publisherId:"ca-app-pub-9969581706012169/4159269930",
                   isTesting:true
@@ -889,6 +927,7 @@
                   publisherId:"ca-app-pub-9969581706012169/4159269930",
                   isTesting:true
                 });
+                */
 
                 /*
                 function onAdLoaded() {
