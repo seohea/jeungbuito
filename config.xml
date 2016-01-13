@@ -1,6 +1,6 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.9.1">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.seo.jeungbuito" version="0.0.9.2">
   <name>圖文字易</name>
-  <description>長輩分享圖,文字圖製造器</description>
+  <description>文字圖製造器</description>
   <author href="" email="seohea.production@gmail.com">Seohea Production</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
