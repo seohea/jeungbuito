@@ -20,6 +20,7 @@
             }
             html{
                 height: 100%;
+                background-color:black;
             }
             body{
                 min-height: 100%;
@@ -188,6 +189,12 @@
                 background-color: #37474F;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); 
             }
+
+            /*
+            .btn{
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); 
+            }
+            */
 
             #reminder{  
                 color:white;
@@ -700,10 +707,13 @@
                 alert("沒有選取圖片");
             }
 
+            var saved_img_path = "";
+
             function saveAll(){
                 window.canvas2ImagePlugin.saveImageDataToLibrary(
                     function(msg){
                         alert(msg);
+                        saved_img_path = msg;
                     },
                     function(err){
                         alert(err);
@@ -713,6 +723,18 @@
                 );
 
                 reset_canvas();
+            }
+
+            function share(){
+                //message, subject, file, url, [successCallback], [errorCallback]
+                window.plugins.socialsharing.share(
+                    null,
+                    null,
+                    "file://"+saved_img_path,
+                    null,
+                    function(result) {alert('result: ' + result);},
+                    function(result) {alert('error: ' + result);}
+                );
             }
 
 
@@ -862,6 +884,11 @@
 
             function onBackKeyDown() {
                 //e.preventDefault();
+                if($('.modal').is(':visible')){
+                    $('.modal').modal('hide');
+                    return false;
+                }
+
                 if(current_page == 1){
                     $('#exitModal').modal('toggle');
                     //navigator.app.exitApp();
@@ -1203,7 +1230,10 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header mhead">
-                <h4 class="modal-title" id="warningModalLabel">msg</h4>
+                <h4 class="modal-title">注意 !</h4>
+              </div>
+              <div class="modal-body">
+                <p id="warningModalLabel"></p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;確認</button>
@@ -1222,16 +1252,23 @@
               </div>
               <div class="modal-body">
                     <div class="input-group input-group">
-                        <span class="input-group-addon" id="sizing-addon3">清除文字</span>
+                        <span class="input-group-addon" id="sizing-addon3">選擇文字</span>
                         <select class="form-control" id="del_select">
                             <option value="-default-" disabled selected> -- 請選擇 -- </option>
                         </select>
                     </div>
+                    
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-warning" data-dismiss="modal" onclick="manual_clear_one($('#del_select').val())"><span class="glyphicon glyphicon-erase"></span>&nbsp;清除所選文字</button>
+                        </div>
+                    </div>
+                    
               </div>
               <div class="modal-footer">
                 <div class="btn-group btn-group-justified" role="group">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-danger" data-dismiss="modal" onclick="manual_clear_one($('#del_select').val())"><span class="glyphicon glyphicon-erase"></span>&nbsp;確認及清除</button>
+                        <button class="btn btn-danger" data-dismiss="modal" onclick="manual_clear();"><span class="glyphicon glyphicon-erase"></span>&nbsp;清除<b>所有</b>文字</button>
                     </div>
                 </div>
               </div>
@@ -1280,6 +1317,22 @@
           </div>
         </div>
 
+        <!-- ShareModal -->
+        <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header mhead">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">儲存圖片及分享圖片？</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;取消</button>
+                <button type="button" class="btn btn-success" onclick="saveAll();share();" data-dismiss="modal"><span class="glyphicon glyphicon-share"></span>&nbsp;儲存及分享</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ClearModal -->
         <div class="modal fade" id="clearModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -1311,6 +1364,9 @@
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-primary savebtn" disabled type="button" data-toggle="modal" data-target="#saveModal"><span id="icon" class="glyphicon glyphicon-floppy-disk"></span><br><span class="icon_caption">儲存圖片</span></button>
                     </div>
+                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                        <button class="btn btn-primary savebtn" disabled type="button" data-toggle="modal" data-target="#shareModal"><span id="icon" class="glyphicon glyphicon-share"></span><br><span class="icon_caption">外部分享</span></button>
+                    </div>
                     <!--div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-default" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
                     </div-->
@@ -1320,9 +1376,9 @@
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#delModal" onclick="getallwords();" ><span id="icon" class="glyphicon glyphicon-erase"></span><br><span class="icon_caption">清除文字</span></button>
                     </div>
-                    <div class="btn-group btn-group" role="group" id="ap-remove-btn">
+                    <!--div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#clearModal" ><span id="icon" class="glyphicon glyphicon-trash"></span><br><span class="icon_caption">清除所有</span></button>
-                    </div>
+                    </div-->
                 </div>
             </div>
         </nav>
