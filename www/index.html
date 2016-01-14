@@ -70,6 +70,7 @@
                 text-align:center;
                 padding: 0px;
                 margin: 0px;
+                white-space: nowrap;
             }
 
             #navbar_btn{
@@ -216,6 +217,9 @@
                 box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); 
             }
             */
+            #editword, #addword{
+                display: none;
+            }
             
             #reminder{  
                 color:white;
@@ -518,10 +522,10 @@
                     $("#canvas").css("background-position", "0 0");
                 }
 
-                function showtexttool(i, x, y){
-                    $("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',y-65);
-                    $("#texttool").css('left',x);
+                function showtexttool(i){
+                    //$("#texttooltesting").html(i +", "+x+", "+y);
+                    $("#texttool").css('top',rects[i].y-65);
+                    $("#texttool").css('left',rects[i].x);
                     $("#texttool").show();
                 }
 
@@ -550,15 +554,15 @@
                             r.isDragging=true;
 
                             last_touched = i;
-                            showtexttool(last_touched, e.originalEvent.touches[0].pageX, e.originalEvent.touches[0].pageY);
-
                         }
                     }
 
                     if(dragok == false){
                         hidetexttool();
+                    }else{
+                        showtexttool(last_touched);
                     }
-                    
+
                     // save the current mouse position
                     startX=mx;
                     startY=my;
@@ -571,7 +575,7 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    showtexttool(last_touched, e.originalEvent.touches[0].pageX, e.originalEvent.touches[0].pageY);
+                    showtexttool(last_touched);
 
                     // clear all the dragging flags
                     dragok = false;
@@ -988,11 +992,11 @@
                     <div class="panel panel-default" id="texttool">
                         <div class="panel-body" style="padding:0px !important;">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" ><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text();"><span class="glyphicon glyphicon-pencil"/></button>
                                 <button type="button" class="btn btn-primary" onclick="manual_clear_one(last_touched);"><span class="glyphicon glyphicon-trash"/></button>
-                                <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-minus-sign"/></button>
+                                <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
-                            <span id="texttooltesting">...</span>
+                            <!--span id="texttooltesting">...</span-->
                         </div>
                     </div>
 
@@ -1076,9 +1080,14 @@
               <div class="modal-footer">
                 <span id="word_sample"></span>
                 <br><hr>
-                <div class="btn-group btn-group-justified" role="group">
+                <div class="btn-group btn-group-justified" role="group" id="addword">
                     <div class="btn-group" role="group">
                         <button class="btn btn-success" data-dismiss="modal" onclick="add(); add_history($('#words').val());"><span class="glyphicon glyphicon-plus"></span>&nbsp;確認及添加</button>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified" role="group" id="editword">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-success" data-dismiss="modal" onclick=""><span class="glyphicon glyphicon-ok"></span>&nbsp;確認</button>
                     </div>
                 </div>
               </div>
@@ -1396,7 +1405,7 @@
                         <button class="btn btn-default" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
                     </div-->
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#myModal" onclick="preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span><br><span class="icon_caption">文字</span></button>
+                        <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#myModal" onclick="$('#addword').show();$('#editword').hide(); preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span><br><span class="icon_caption">文字</span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#delModal" onclick="getallwords();" ><span id="icon" class="glyphicon glyphicon-erase"></span><br><span class="icon_caption">清除</span></button>
