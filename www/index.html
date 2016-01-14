@@ -552,10 +552,13 @@
                             last_touched = i;
                             showtexttool(last_touched, e.originalEvent.touches[0].pageX, e.originalEvent.touches[0].pageY);
 
-                        }else{
-                            hidetexttool();
                         }
                     }
+
+                    if(dragok == false){
+                        hidetexttool();
+                    }
+                    
                     // save the current mouse position
                     startX=mx;
                     startY=my;
