@@ -65,10 +65,11 @@
                 display:none;
                 z-index: 1000; 
                 position:fixed; 
-                width:50%; 
                 top: 5%; 
                 left: 25%; 
                 text-align:center;
+                padding: 0px;
+                margin: 0px;
             }
 
             #navbar_btn{
@@ -128,13 +129,6 @@
               font-style: normal;
               font-weight: 500;
               src: url(fonts/cwTeXKai-zhonly.ttf) format('truetype');
-              /*
-              src: url(fonts/cwTeXKai-zhonly.eot);
-              src: url(fonts/cwTeXKai-zhonly.eot?#iefix) format('embedded-opentype'),
-                   url(fonts/cwTeXKai-zhonly.woff2) format('woff2'),
-                   url(fonts/cwTeXKai-zhonly.woff) format('woff'),
-                   url(fonts/cwTeXKai-zhonly.ttf) format('truetype');
-                   */
             }
 
             @font-face {
@@ -143,13 +137,6 @@
               font-style: normal;
               font-weight: 500;
               src: url(fonts/cwTeXFangSong-zhonly.ttf) format('truetype');
-              /*
-              src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot);
-              src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot?#iefix) format('embedded-opentype'),
-                   url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff2) format('woff2'),
-                   url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff) format('woff'),
-                   url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
-                   */
             }
 
             @font-face {
@@ -172,10 +159,6 @@
             }
 
             #header_well{
-                /*
-                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-                background-color:rgba(0,0,0,0.1); 
-                */
                 background-color:rgba(0,0,0,0); 
                 text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
                 margin: 5%; 
@@ -264,11 +247,6 @@
             var current_page;
 
             get_history();
-            //var xpos = 50;
-            //var ypos = 50;
-
-            //var WIDTH = 400;
-            //var HEIGHT = 300;
 
             $(document).ready(function() {
                 var canvas = document.getElementById("canvas");
@@ -302,19 +280,6 @@
                 }
 
                 lock_screen();
-                
-
-                //WIDTH = $("#photo").width();
-                //HEIGHT = $("#photo").height();
-
-
-                ///$.support.transition = false;
-  
-                //canvas.onmousedown = myDown;
-                //canvas.onmouseup = myUp;
-
-                // get canvas related references
-                //var canvas=document.getElementById("canvas");
 
                 var ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
 
@@ -392,10 +357,6 @@
                 }
 
 
-                //rects.push({x:200-15,y:50-15,width:30,height:30,fill:"black",isDragging:false,text:"First text is very long",len:(("First text is very long".length * 24)/2)});
-                //rects.push({x:200-25,y:50-25,width:30,height:30,fill:"grey",isDragging:false,text:"Second text",len:(("Second text".length * 24)/2)});
-                //rects.push({x:200-35,y:50-35,width:30,height:30,fill:"blue",isDragging:false,text:"third text",len:(("third text".length * 24)/2)});
-
                 resize = function photo_resize(imgsrc){
 
                     var photo = new Image();
@@ -422,11 +383,6 @@
                     
                 }
 
-                // listen for mouse events
-                //canvas.onmousedown = myDown;
-                //canvas.onmouseup = myUp;
-                //canvas.onmousemove = myMove;
-
                 $('#canvas').on('touchstart', function(e){
                     myDown(e);
                     $("#testing").text("Down");
@@ -443,8 +399,12 @@
                 add = function addwords(){
                     $("#inserfontsize").text($("#words").val());
                     var arr = {};
-                    arr.x = 100+rects.length*30;
-                    arr.y = 50+rects.length*30;
+                    var w = $("#photo").width();
+                    var h = $("#photo").height();
+                    arr.x = Math.floor(Math.random()*((w-50)-10+1)+10);
+                    arr.y = Math.floor(Math.random()*((h-50)-10+1)+10);
+                    //arr.x = 100+rects.length*30;
+                    //arr.y = 50+rects.length*30;
                     arr.fill = "black";
                     arr.isDragging = false;
                     arr.text = $("#words").val();
@@ -458,8 +418,6 @@
                     draw();
                 }
 
-                // call to draw the scene
-                //addwords();
                 function invertHex(hexnum){
                     hexnum = hexnum.toUpperCase();
                     var splitnum = hexnum.split("");
@@ -484,14 +442,7 @@
                 }
 
 
-                // draw a single rect
                 function rect(x,y,customtext) {
-                    /*
-                    ctx.font = "24px Arial";
-                    text = $("#words").val();
-                    textLength = (text.length * 24)/2;
-                    ctx.fillText(text, x, y);
-                    */
                     if(customtext.myfont == 0)
                         ctx.font = customtext.charheight+"px Droid Sans";
                     else if (customtext.myfont == 1)
@@ -502,15 +453,6 @@
                         ctx.font = customtext.charheight+"px cwTeXYen";
                     else
                         ctx.font = customtext.charheight+"px Droid Sans";
-
-                    //textLength = (customtext.length * customtext.charheight)/2;
-                    /*
-                    ctx.beginPath();
-                    ctx.rect(x,y,w,h);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    */
                     
                     if(customtext.isstroke){
                         ctx.strokeStyle = "#"+invertHex(customtext.mycolor.substring(1));
@@ -534,7 +476,6 @@
                 }
 
                 manual_clear_one = function man_clear_one(index){
-                    //rects.pop();
                     if(index != null){
                         rects.splice(index, 1);
                         draw();
@@ -544,15 +485,9 @@
                 // redraw the scene
                 draw = function draw() {
                     clear();
-                    //ctx.fillStyle = "#FAF7F8";
-                    //rect(0,0,WIDTH,HEIGHT);
-                    // redraw each rect in the rects[] array
+
                     for(var i=0;i<rects.length;i++){
                         var r=rects[i];
-                        //ctx.fillStyle=r.fill;
-                        //rect(x - textLength/2, y + 15, textLength, 30);
-                        //rect(r.x,r.y,r.width,r.height);
-                        //ctx.fillStyle = r.mycolor;
                         rect(r.x-r.len/2,r.y+r.charheight,r);
                     }
                 }
@@ -569,7 +504,6 @@
 
                         for(var i=0;i<rects.length;i++){
                             var r=rects[i];
-                            //ctx.fillStyle = r.mycolor;
                             rect(r.x-r.len/2,r.y+r.charheight,r);
                         }
 
@@ -578,24 +512,17 @@
                 }
 
                 bgpic = function background_pic(src){
-                    //alert(src);
-                    /*
-                    var imageObj = new Image();
-                    imageObj.src = src;
-                    ctx.drawImage(imageObj, 0, 0, canvas.style.width, canvas.style.height);
-                    */
                     $("#canvas").css("background-image", "url("+src+")");
                     $("#canvas").css("background-size", "cover");
                     $("#canvas").css("background-position", "0 0");
                 }
 
                 function showtexttool(i){
-                    $("#texttool").show();
                     $("#texttooltesting").html(i +", "+rects[i].x+", "+rects[i].y);
-                    /*
-                    $("#texttool").css('left',);
-                    $("#texttool").css('top',);
-                    */
+                    $("#texttool").css('top',rects[i].x-65);
+                    $("#texttool").css('left',0);
+                    $('#del_select').val(i);
+                    $("#texttool").show();
                 }
 
                 function hidetexttool(){
@@ -608,28 +535,23 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    // get the current mouse position
-                    //var mx=parseInt(e.clientX-offsetX);
-                    //var my=parseInt(e.clientY-offsetY);
                     var mx=parseInt(e.originalEvent.touches[0].pageX-offsetX);
                     var my=parseInt(e.originalEvent.touches[0].pageY-offsetY);
                     $("#testing2").text(mx + ", "+my);
 
-                    // test each rect to see if mouse is inside
                     dragok=false;
                     for(var i=0;i<rects.length;i++){
                         var r=rects[i];
-                        //if (e.pageX < x + textLength + canvas.offsetLeft && e.pageX > x - textLength + canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop && e.pageY > y -15 + canvas.offsetTop){
-                        //if(mx>r.x && mx<r.x+r.width && my>r.y && my<r.y+r.height){
                         $("#testing3").text(mx + ">"+(r.x-r.len/2) +" | "+mx+"<"+(r.x+r.len/2));
                         $("#testing4").text(my + ">"+(r.y) +" | "+my+"<"+(r.y+r.charheight));
 
                         if(mx>r.x-r.len/2 && mx<r.x+r.len/2 && my>r.y && my<r.y+r.charheight){  
-                            // if yes, set that rects isDragging=true
                             dragok=true;
                             r.isDragging=true;
 
                             showtexttool(i);
+                        }else{
+                            hidetexttool();
                         }
                     }
                     // save the current mouse position
@@ -643,8 +565,6 @@
                     // tell the browser we're handling this mouse event
                     e.preventDefault();
                     e.stopPropagation();
-                    
-                    hidetexttool();
 
                     // clear all the dragging flags
                     dragok = false;
@@ -659,15 +579,10 @@
                     // if we're dragging anything...
                     if (dragok){
 
-
                       // tell the browser we're handling this mouse event
                       e.preventDefault();
                       e.stopPropagation();
 
-                      hidetexttool();
-                      // get the current mouse position
-                      //var mx=parseInt(e.clientX-offsetX);
-                      //var my=parseInt(e.clientY-offsetY);
                       var mx=parseInt(e.originalEvent.touches[0].pageX-offsetX);
                       var my=parseInt(e.originalEvent.touches[0].pageY-offsetY);
 
@@ -770,7 +685,6 @@
             }
 
             function onFail(message) {
-                //alert("Get image failed: " + message);
                 alert("沒有選取圖片");
             }
 
@@ -858,64 +772,7 @@
                 word_list.push(words);
                 window.localStorage.setItem("wordlist", JSON.stringify(word_list));
             }
-            /*
-            var canvas;
-            var ctx;
-            var x = 75;
-            var y = 50;
-            var dragok = false;
-            var text = "Hey there im movin!";
-            var textLength = (text.length * 24)/2;
-
-            var rects = [];
-
-
-            function rect(x,y,w,h) {
-                ctx.font = "24px Arial";
-                text = $("#words").val();
-                textLength = (text.length * 24)/2;
-                ctx.fillText(text, x, y);
-            }
-
-            function clear() {
-                ctx.clearRect(0, 0, WIDTH, HEIGHT);
-            }
-
-            function init() {
-                canvas = document.getElementById("canvas");
-                ctx = canvas.getContext("2d");
-                return setInterval(draw, 10);
-            }
-
-            function draw() {
-                clear();
-                ctx.fillStyle = "#FAF7F8";
-                ctx.fillStyle = "#444444";
-                rect(x - textLength/2, y + 15, textLength, 30);
-            }
-
-            function myMove(e){
-                if (dragok){
-                    x = e.pageX - canvas.offsetLeft;
-                    y = e.pageY - canvas.offsetTop;
-                }
-            }
-
-            function myDown(e){
-                if (e.pageX < x + textLength + canvas.offsetLeft && e.pageX > x - textLength + canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop &&
-                    e.pageY > y -15 + canvas.offsetTop){
-                    x = e.pageX - canvas.offsetLeft;
-                    y = e.pageY - canvas.offsetTop;
-                    dragok = true;
-                    canvas.onmousemove = myMove;
-                }
-            }
-
-            function myUp(){
-                dragok = false;
-                canvas.onmousemove = null;
-            }
-            */
+            
             function initAds() {
                 if (admob) {
                     admob.setOptions({
@@ -981,17 +838,6 @@
                 admob.createBannerView();
 
                 admob.requestInterstitialAd();
-                /*
-                admob.createBannerView({
-                  publisherId:"ca-app-pub-9969581706012169/4159269930",
-                  isTesting:true
-                });
-
-                admob.requestInterstitialAd({
-                  publisherId:"ca-app-pub-9969581706012169/4159269930",
-                  isTesting:true
-                });
-                */
 
                 /*
                 function onAdLoaded() {
@@ -1007,12 +853,11 @@
             }
 
             function onResume() {
-                //alert("img_url: "+img_url+"\n"+"Rects:"+rects);
                 draw();
             }
 
             function onBackKeyDown() {
-                //e.preventDefault();
+ 
                 if($('.modal').is(':visible')){
                     $('.modal').modal('hide');
                     return false;
@@ -1020,7 +865,7 @@
 
                 if(current_page == 1){
                     $('#exitModal').modal('toggle');
-                    //navigator.app.exitApp();
+
                 }else if (current_page == 2){
                     firstpage();
                 }else{
@@ -1134,8 +979,13 @@
                     </div>
 
                     <div class="panel panel-default" id="texttool">
-                        <div class="panel-body">
-                            <p id="texttooltesting">...</p>
+                        <div class="panel-body" style="padding:0px !important;">
+                            <span id="texttooltesting">...</span>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary" onclick=""><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-primary" onclick="manual_clear_one($('#del_select').val());"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-minus-sign"/></button>
+                            </div>
                         </div>
                     </div>
 
