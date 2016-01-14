@@ -350,6 +350,44 @@
                     $("#type_history_select").html(options);
                 }
 
+                preview_text_currect = function preview_text_current(){
+                    $("#word_sample").text(rects[last_touched].text);
+                    font_type = rects[last_touched].myfont;
+                    if (font_type == 0)
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important;');
+                    else if(font_type == 1)
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important; font-family: "cwTeXKai", serif;');
+                    else if(font_type == 2)
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important; font-family: "cwTeXFangSong", serif;');
+                    else
+                        $('#word_sample').attr('style', 'font-size: '+font_size+'px !important; font-family: "cwTeXYen", serif;');
+
+                    var color_now = rects[last_touched].mycolor;
+                    $("#word_sample").css('color', color_now);
+                    $('#color_btn').css('color', color_now);
+
+                    is_stroke = rects[last_touched].isstroke;
+                    if(is_stroke){
+                        $('.tooltogglebtn').css('background-color', '#7b99b7');
+                        $('.tooltogglebtn').css('border-color', '#7b99b7');
+                        $('#word_sample').css('background-color', '#'+invertHex(color_now.substring(1)));
+                    }else{
+                        $('.tooltogglebtn').css('background-color', '#2c3e50');
+                        $('.tooltogglebtn').css('border-color', '#2c3e50');
+                        $('#word_sample').css('background-color', 'none');
+                    }
+
+                    $("select option").filter(function() {
+                        return $(this).val() == "-default-"; 
+                    }).prop('selected', true);
+
+                    var options = '<option value="-default-" disabled selected> -- 請選擇 -- </option>';
+                    for (var i = word_list.length-1; i >=0; i--) {
+                        options += '<option value="' + word_list[i]+ '">' + word_list[i] + '</option>';
+                    }
+                    $("#type_history_select").html(options);
+                }
+
                 // drag related variables
                 var dragok = false;
                 var startX;
@@ -419,6 +457,19 @@
                     arr.myfont = font_type;
                     arr.isstroke = is_stroke;
                     rects.push(arr);
+
+                    draw();
+                }
+
+                update = function update(){
+                    $("#inserfontsize").text($("#words").val());
+                    rects[last_touched].isDragging = false;
+                    rects[last_touched].text = $("#words").val();
+                    rects[last_touched].len = $('#inserfontsize').width();
+                    rects[last_touched].charheight = font_size;
+                    rects[last_touched].mycolor = $("#mycolor").val();
+                    rects[last_touched].myfont = font_type;
+                    rects[last_touched].isstroke = is_stroke;
 
                     draw();
                 }
@@ -524,8 +575,8 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y-65);
-                    $("#texttool").css('left',rects[i].x);
+                    $("#texttool").css('top',rects[i].y-offsetY);
+                    $("#texttool").css('left',rects[i].x-offsetX);
                     $("#texttool").show();
                 }
 
@@ -574,8 +625,6 @@
                     // tell the browser we're handling this mouse event
                     e.preventDefault();
                     e.stopPropagation();
-
-                    showtexttool(last_touched);
 
                     // clear all the dragging flags
                     dragok = false;
@@ -992,7 +1041,7 @@
                     <div class="panel panel-default" id="texttool">
                         <div class="panel-body" style="padding:0px !important;">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text();"><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_currect();"><span class="glyphicon glyphicon-pencil"/></button>
                                 <button type="button" class="btn btn-primary" onclick="manual_clear_one(last_touched);"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
@@ -1087,7 +1136,7 @@
                 </div>
                 <div class="btn-group btn-group-justified" role="group" id="editword">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success" data-dismiss="modal" onclick=""><span class="glyphicon glyphicon-ok"></span>&nbsp;確認</button>
+                        <button class="btn btn-success" data-dismiss="modal" onclick="update(); add_history($('#words').val());"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認修改</button>
                     </div>
                 </div>
               </div>
