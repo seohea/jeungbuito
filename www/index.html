@@ -249,6 +249,7 @@
             get_history();
 
             $(document).ready(function() {
+                var last_touched;
                 var canvas = document.getElementById("canvas");
 
                 init_canvas = function init_canvas(){
@@ -517,11 +518,10 @@
                     $("#canvas").css("background-position", "0 0");
                 }
 
-                function showtexttool(i){
-                    $("#texttooltesting").html(i +", "+rects[i].x+", "+rects[i].y);
-                    $("#texttool").css('top',rects[i].x-65);
-                    $("#texttool").css('left',0);
-                    $('#del_select').val(i);
+                function showtexttool(i, x, y){
+                    $("#texttooltesting").html(i +", "+x+", "+y);
+                    $("#texttool").css('top',y-65);
+                    $("#texttool").css('left',x);
                     $("#texttool").show();
                 }
 
@@ -549,7 +549,9 @@
                             dragok=true;
                             r.isDragging=true;
 
-                            showtexttool(i);
+                            last_touched = i;
+                            showtexttool(last_touched, e.originalEvent.touches[0].pageX, e.originalEvent.touches[0].pageY);
+
                         }else{
                             hidetexttool();
                         }
@@ -565,6 +567,8 @@
                     // tell the browser we're handling this mouse event
                     e.preventDefault();
                     e.stopPropagation();
+
+                    showtexttool(last_touched, e.originalEvent.touches[0].pageX, e.originalEvent.touches[0].pageY);
 
                     // clear all the dragging flags
                     dragok = false;
@@ -980,12 +984,12 @@
 
                     <div class="panel panel-default" id="texttool">
                         <div class="panel-body" style="padding:0px !important;">
-                            <span id="texttooltesting">...</span>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" onclick=""><span class="glyphicon glyphicon-pencil"/></button>
-                                <button type="button" class="btn btn-primary" onclick="manual_clear_one($('#del_select').val());"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-primary" ><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-primary" onclick="manual_clear_one(last_touched);"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-minus-sign"/></button>
                             </div>
+                            <span id="texttooltesting">...</span>
                         </div>
                     </div>
 
