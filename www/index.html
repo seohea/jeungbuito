@@ -70,7 +70,21 @@
                 text-align:center;
                 padding: 0px;
                 margin: 0px;
-                white-space: nowrap;
+                border:0px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            }
+
+            .btn4{
+                border-radius: 50% !important;
+                width: 120px;
+                height: 120px; 
+                margin: 5px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            }
+
+            .btn4icon{
+                font-size: 32px;
+                text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
             }
 
             #navbar_btn{
@@ -150,9 +164,9 @@
             .moveanimation {-webkit-animation: anim1 ease-in-out 3s infinite alternate; }
             @-webkit-keyframes anim1
             {
-               from {-webkit-transform: scale(1.0) }
+               from {-webkit-transform: scale(1.1) }
                50%  {-webkit-transform: scale(0.93) }
-               to   {-webkit-transform: scale(1.0) }
+               to   {-webkit-transform: scale(1.1) }
             }
             @-webkit-keyframes anim2
             {
@@ -253,6 +267,15 @@
             get_history();
 
             $(document).ready(function() {
+
+                ga_storage._setAccount('UA-71645264-2');
+                ga_storage._setDomain('none');
+
+                ga_storage._disableSSL();
+
+                ga_storage._trackPageview('/index', '圖文字易');
+                ga_storage._trackEvent('圖文字易', 'Open APP', 'Open APP');
+
                 
                 var canvas = document.getElementById("canvas");
 
@@ -584,8 +607,8 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y+offsetY-10);
-                    $("#texttool").css('left',rects[i].x);
+                    $("#texttool").css('top',rects[i].y+offsetY-50);
+                    $("#texttool").css('left',rects[i].x-rects[i].len/2);
                     $("#texttool").show();
                 }
 
@@ -641,13 +664,15 @@
                     e.preventDefault();
                     e.stopPropagation();
 
+                    if (dragok == true){
+                        showtexttool(rects.length-1);
+                    }
+
                     // clear all the dragging flags
                     dragok = false;
                     for(var i=0;i<rects.length;i++){
                         rects[i].isDragging=false;
                     }
-
-                    showtexttool(rects.length-1);
                 }
 
 
@@ -850,13 +875,6 @@
                 window.localStorage.setItem("wordlist", JSON.stringify(word_list));
             }
             
-            function GA(){
-                ga_storage._setAccount('UA-71645264-2'); //Replace with your own
-                ga_storage._setDomain('none');
-
-                ga_storage._trackPageview('/index', '圖文字易');
-                ga_storage._trackEvent('圖文字易', 'Open APP', 'Open APP');
-            }
 
             function initAds() {
                 if (admob) {
@@ -923,8 +941,6 @@
                 admob.createBannerView();
 
                 admob.requestInterstitialAd();
-
-                GA();
 
                 /*
                 function onAdLoaded() {
@@ -1021,22 +1037,22 @@
 
             <div class="container">
                 <div class="row">
-                    <div id="header_well" class="well moveanimation">
+                    <div id="header_well" class="well">
                       <h1 style="letter-spacing: 6px;">圖文字易</h1>
                       <hr>
                       <h5 style="letter-spacing: 5px;">長輩圖/Line圖/Whatsapp圖</h5>
                       <h5 style="letter-spacing: 5px;"><b>簡單易用</b> 文字圖製造器</h5>
                     </div>
 
-                    <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0.15); ">
+                    <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0); padding-top:0px;">
                         <table style="width:100%;">
                             <tr>
-                                <td width="50%"><button type="button" class="btn btn-success btn-lg" onclick="editpage();" style="width:100%"><span class="glyphicon glyphicon-picture"></span><br>編輯圖片</button></td>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" style="width:100%"><span class="glyphicon glyphicon-sunglasses"></span><br>設計建議</button></td>
+                                <td width="50%" align="right" valign="middle"><button type="button" class="btn4 btn btn-success moveanimation" onclick="editpage();" ><span class="glyphicon glyphicon-picture btn4icon"></span><br>編輯圖片</button></td>
+                                <td width="50%" align="left" valign="middle"><button type="button" class="btn4 btn btn-warning" data-toggle="modal" data-target="#infoModal"><span class="glyphicon glyphicon-sunglasses btn4icon"></span><br>設計建議</button></td>
                             </tr>
                             <tr>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorModal" style="width:100%"><span class="glyphicon glyphicon-pencil"></span><br>使用教學</button></td>
-                                <td width="50%"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#aboutModal" style="width:100%"><span class="glyphicon glyphicon-certificate"></span><br>關於</button></td>
+                                <td width="50%" align="right" valign="middle"><button type="button" class="btn4 btn btn-info" data-toggle="modal" data-target="#tutorModal"><span class="glyphicon glyphicon-pencil btn4icon"></span><br>使用教學</button></td>
+                                <td width="50%" align="left" valign="middle"><button type="button" class="btn4 btn btn-danger" data-toggle="modal" data-target="#aboutModal"><span class="glyphicon glyphicon-certificate btn4icon"></span><br>關於</button></td>
                             </tr>
                         </table>
                     </div>
@@ -1068,8 +1084,8 @@
                     <div class="panel panel-default" id="texttool">
                         <div class="panel-body" style="padding:0px !important;">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_current();"><span class="glyphicon glyphicon-pencil"/></button>
-                                <button type="button" class="btn btn-primary" onclick="manual_clear_one(rects.length-1);"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_current();"><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-danger" onclick="manual_clear_one(rects.length-1);"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
                             <!--span id="texttooltesting">...</span-->
@@ -1294,7 +1310,7 @@
         <div class="modal fade" id="moreModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-body">
+              <div class="modal-body" style="padding:0px;">
                 <div class="btn-group-vertical" role="group" aria-label="..." style="width:100%;!important">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;評分</button>
