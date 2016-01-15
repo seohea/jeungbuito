@@ -352,7 +352,7 @@
 
                 preview_text_current = function preview_text_current(){
                     var ind = rects.length-1;
-                    $("#words").text(rects[ind].text);
+                    $("#words").val(rects[ind].text);
                     $("#word_sample").text(rects[ind].text);
                     font_type = rects[ind].myfont;
                     font_size = rects[ind].charheight;
@@ -368,6 +368,7 @@
                     var color_now = rects[ind].mycolor;
                     $("#word_sample").css('color', color_now);
                     $('#color_btn').css('color', color_now);
+                    $("#mycolor").val(color_now);
 
                     is_stroke = rects[ind].isstroke;
                     if(is_stroke){
@@ -583,8 +584,8 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y+offsetY-65);
-                    $("#texttool").css('left',rects[i].x+offsetX);
+                    $("#texttool").css('top',rects[i].y+offsetY-10);
+                    $("#texttool").css('left',rects[i].x);
                     $("#texttool").show();
                 }
 
@@ -623,7 +624,6 @@
                     }
 
                     if(dragok == false){
-                        showtexttool(rects.length-1);
                         hidetexttool();
                     }else{
                         rearrange_text(last_touched);
@@ -646,6 +646,8 @@
                     for(var i=0;i<rects.length;i++){
                         rects[i].isDragging=false;
                     }
+
+                    showtexttool(rects.length-1);
                 }
 
 
@@ -848,6 +850,14 @@
                 window.localStorage.setItem("wordlist", JSON.stringify(word_list));
             }
             
+            function GA(){
+                ga_storage._setAccount('UA-71645264-2'); //Replace with your own
+                ga_storage._setDomain('none');
+
+                ga_storage._trackPageview('/index', '圖文字易');
+                ga_storage._trackEvent('圖文字易', 'Open APP', 'Open APP');
+            }
+
             function initAds() {
                 if (admob) {
                     admob.setOptions({
@@ -913,6 +923,8 @@
                 admob.createBannerView();
 
                 admob.requestInterstitialAd();
+
+                GA();
 
                 /*
                 function onAdLoaded() {
@@ -1268,7 +1280,7 @@
                 <h4>圖文字易</h4>
                 <ul>
                   <li>版權所有 &copy; Seohea Production</li>
-                  <li>版本 Alpha 0.0.9</li>
+                  <li>版本 Alpha 0.1</li>
                 </ul>
               </div>
               <div class="modal-footer">
