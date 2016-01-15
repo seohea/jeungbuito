@@ -253,7 +253,7 @@
             get_history();
 
             $(document).ready(function() {
-                var last_touched;
+                
                 var canvas = document.getElementById("canvas");
 
                 init_canvas = function init_canvas(){
@@ -350,9 +350,12 @@
                     $("#type_history_select").html(options);
                 }
 
-                preview_text_currect = function preview_text_current(){
-                    $("#word_sample").text(rects[last_touched].text);
-                    font_type = rects[last_touched].myfont;
+                preview_text_current = function preview_text_current(){
+                    var ind = rects.length-1;
+                    $("#words").text(rects[ind].text);
+                    $("#word_sample").text(rects[ind].text);
+                    font_type = rects[ind].myfont;
+                    font_size = rects[ind].charheight;
                     if (font_type == 0)
                         $('#word_sample').attr('style', 'font-size: '+font_size+'px !important;');
                     else if(font_type == 1)
@@ -362,11 +365,11 @@
                     else
                         $('#word_sample').attr('style', 'font-size: '+font_size+'px !important; font-family: "cwTeXYen", serif;');
 
-                    var color_now = rects[last_touched].mycolor;
+                    var color_now = rects[ind].mycolor;
                     $("#word_sample").css('color', color_now);
                     $('#color_btn').css('color', color_now);
 
-                    is_stroke = rects[last_touched].isstroke;
+                    is_stroke = rects[ind].isstroke;
                     if(is_stroke){
                         $('.tooltogglebtn').css('background-color', '#7b99b7');
                         $('.tooltogglebtn').css('border-color', '#7b99b7');
@@ -461,15 +464,20 @@
                     draw();
                 }
 
-                update = function update(){
+                update_modified = function update_modified(){
+                    var ind = rects.length-1;
+
+                    alert("last index:"+ind+"\n"+"Recttext: "+rects[ind].text);
+                    alert($("#words").val()+"\n"+$('#inserfontsize').width()+"\n"+font_size+"\n"+$("#mycolor").val()+"\n"+font_type+"\n"+is_stroke);
+
                     $("#inserfontsize").text($("#words").val());
-                    rects[last_touched].isDragging = false;
-                    rects[last_touched].text = $("#words").val();
-                    rects[last_touched].len = $('#inserfontsize').width();
-                    rects[last_touched].charheight = font_size;
-                    rects[last_touched].mycolor = $("#mycolor").val();
-                    rects[last_touched].myfont = font_type;
-                    rects[last_touched].isstroke = is_stroke;
+                    rects[ind].isDragging = false;
+                    rects[ind].text = $("#words").val();
+                    rects[ind].len = $('#inserfontsize').width();
+                    rects[ind].charheight = font_size;
+                    rects[ind].mycolor = $("#mycolor").val();
+                    rects[ind].myfont = font_type;
+                    rects[ind].isstroke = is_stroke;
 
                     draw();
                 }
@@ -575,8 +583,8 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y-offsetY);
-                    $("#texttool").css('left',rects[i].x-offsetX);
+                    $("#texttool").css('top',rects[i].y+offsetY-65);
+                    $("#texttool").css('left',rects[i].x+offsetX);
                     $("#texttool").show();
                 }
 
@@ -584,8 +592,14 @@
                     $("#texttool").hide();
                 }
 
+                function rearrange_text(tar){
+                    rects.push(rects.splice(tar,1)[0]);
+                    showtexttool(rects.length-1);
+                }
+
                 // handle mousedown events
                 function myDown(e){
+                    var last_touched = 999;
                     // tell the browser we're handling this mouse event
                     e.preventDefault();
                     e.stopPropagation();
@@ -609,9 +623,10 @@
                     }
 
                     if(dragok == false){
+                        showtexttool(rects.length-1);
                         hidetexttool();
                     }else{
-                        showtexttool(last_touched);
+                        rearrange_text(last_touched);
                     }
 
                     // save the current mouse position
@@ -998,7 +1013,7 @@
                       <h1 style="letter-spacing: 6px;">圖文字易</h1>
                       <hr>
                       <h5 style="letter-spacing: 5px;">長輩圖/Line圖/Whatsapp圖</h5>
-                      <h5 style="letter-spacing: 5px;">文字圖製造器</h5>
+                      <h5 style="letter-spacing: 5px;"><b>簡單易用</b> 文字圖製造器</h5>
                     </div>
 
                     <div class="well" style="margin: 5%; background-color:rgba(0,0,0,0.15); ">
@@ -1041,8 +1056,8 @@
                     <div class="panel panel-default" id="texttool">
                         <div class="panel-body" style="padding:0px !important;">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_currect();"><span class="glyphicon glyphicon-pencil"/></button>
-                                <button type="button" class="btn btn-primary" onclick="manual_clear_one(last_touched);"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_current();"><span class="glyphicon glyphicon-pencil"/></button>
+                                <button type="button" class="btn btn-primary" onclick="manual_clear_one(rects.length-1);"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
                             <!--span id="texttooltesting">...</span-->
@@ -1136,7 +1151,7 @@
                 </div>
                 <div class="btn-group btn-group-justified" role="group" id="editword">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success" data-dismiss="modal" onclick="update(); add_history($('#words').val());"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認修改</button>
+                        <button class="btn btn-success" data-dismiss="modal" onclick="update_modified(); add_history($('#words').val());"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認修改</button>
                     </div>
                 </div>
               </div>
