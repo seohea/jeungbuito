@@ -72,7 +72,6 @@
                 padding: 0px;
                 margin: 0px;
                 border:0px;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
             }
 
             .btn4{
@@ -130,8 +129,7 @@
             }
 
             #inserfontsize{
-                /*display: none;*/
-                color:white;
+                display: none;
                 text-transform: none !important;
                 font-family: "Arial" !important;
             }
@@ -187,7 +185,7 @@
                 background-color:rgba(0,0,0,0); 
                 text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
                 margin: 5%; 
-                padding-bottom: 0px;
+                padding: 0px;
                 color:white;       
                 text-align:center;
             }
@@ -495,16 +493,16 @@
                     arr.isstroke = is_stroke;
                     rects.push(arr);
 
+                    $("#words").val("");
+
                     draw();
                 }
 
                 update_modified = function update_modified(){
                     var ind = rects.length-1;
 
-                    alert("inserfontsize width ori"+$('#inserfontsize').width());
-
                     $("#inserfontsize").text($("#words").val());
-                    alert("inserfontsize width now"+$('#inserfontsize').width());
+                    $('#inserfontsize').attr('style', 'font-size: '+font_size+'px !important');
 
                     rects[ind].isDragging = false;
                     rects[ind].text = $("#words").val();
@@ -514,7 +512,7 @@
                     rects[ind].myfont = font_type;
                     rects[ind].isstroke = is_stroke;
 
-
+                    $("#words").val("");
 
                     draw();
                 }
@@ -624,7 +622,7 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y+offsetY-rects[i].charheight-10);
+                    $("#texttool").css('top',rects[i].y+offsetY-50+rects[i].charheight/2);
                     $("#texttool").css('left',rects[i].x-rects[i].len/2);
                     $("#texttool").show();
                 }
@@ -1100,9 +1098,9 @@
 
                     <div class="panel panel-default" id="texttool" style="background-color: rgba(0,0,0,0) !important;">
                         <div class="panel-body" style="padding:0px !important; background-color:rgba(0,0,0,0); ">
-                            <div class="btn-group" role="group">
+                            <div class="btn-group" role="group" style="overflow:hidden !important;">
                                 <button type="button" class="btn btn-success" style="border:0px;" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_current();"><span class="glyphicon glyphicon-pencil"/></button>
-                                <button type="button" class="btn btn-danger" style="border:0px;" onclick="manual_clear_one('999');"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-danger" style="border:0px;" onclick="manual_clear_one('999'); hidetexttool();"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" style="border:0px;" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
                             <div class="arrow-down"></div>
