@@ -72,6 +72,8 @@
                 padding: 0px;
                 margin: 0px;
                 border:0px;
+                width:135px;
+                height: 52px;
             }
 
             .btn4{
@@ -583,6 +585,8 @@
                         rects.splice(index, 1);
                         draw();
                     }
+
+                    hidetexttool();
                 }
 
                 // redraw the scene
@@ -622,7 +626,7 @@
 
                 function showtexttool(i){
                     //$("#texttooltesting").html(i +", "+x+", "+y);
-                    $("#texttool").css('top',rects[i].y+offsetY-50+rects[i].charheight/2);
+                    $("#texttool").css('top',rects[i].y+offsetY-55+rects[i].charheight/2);
                     $("#texttool").css('left',rects[i].x-rects[i].len/2);
                     $("#texttool").show();
                 }
@@ -695,6 +699,8 @@
                 function myMove(e){
                     // if we're dragging anything...
                     if (dragok){
+
+                      hidetexttool();
 
                       // tell the browser we're handling this mouse event
                       e.preventDefault();
@@ -886,7 +892,8 @@
             function add_history(words){
                 if(word_list.length > 9)
                     word_list.shift();
-                word_list.push(words);
+                if(words != "")
+                    word_list.push(words);
                 window.localStorage.setItem("wordlist", JSON.stringify(word_list));
             }
             
@@ -1100,7 +1107,7 @@
                         <div class="panel-body" style="padding:0px !important; background-color:rgba(0,0,0,0); ">
                             <div class="btn-group" role="group" style="overflow:hidden !important;">
                                 <button type="button" class="btn btn-success" style="border:0px;" data-toggle="modal" data-target="#myModal" onclick="$('#editword').show();$('#addword').hide();preview_text_current();"><span class="glyphicon glyphicon-pencil"/></button>
-                                <button type="button" class="btn btn-danger" style="border:0px;" onclick="manual_clear_one('999'); hidetexttool();"><span class="glyphicon glyphicon-trash"/></button>
+                                <button type="button" class="btn btn-danger" style="border:0px;" onclick="manual_clear_one('999');"><span class="glyphicon glyphicon-trash"/></button>
                                 <button type="button" class="btn btn-primary" style="border:0px;" onclick="$('#texttool').hide();"><span class="glyphicon glyphicon-eye-close"/></button>
                             </div>
                             <div class="arrow-down"></div>
@@ -1513,7 +1520,7 @@
                         <button class="btn btn-default" type="button" onclick="lock_screen();" id="scroll_btn" ></button>
                     </div-->
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
-                        <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#myModal" onclick="$('#addword').show();$('#editword').hide(); preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span><br><span class="icon_caption">文字</span></button>
+                        <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#myModal" onclick="$('#addword').show();$('#editword').hide(); preview_text();"><span id="icon" class="glyphicon glyphicon-edit"></span><br><span class="icon_caption">輸入</span></button>
                     </div>
                     <div class="btn-group btn-group" role="group" id="ap-remove-btn">
                         <button class="btn btn-primary editbtn" disabled type="button" data-toggle="modal" data-target="#delModal" onclick="getallwords();" ><span id="icon" class="glyphicon glyphicon-erase"></span><br><span class="icon_caption">清除</span></button>
