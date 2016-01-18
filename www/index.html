@@ -514,6 +514,8 @@
                     rects[ind].myfont = font_type;
                     rects[ind].isstroke = is_stroke;
 
+                    $("#words").val("");
+
                     draw();
                 }
 
@@ -907,6 +909,7 @@
 
             function clear_type_history(){
                 window.localStorage.removeItem("wordlist");
+                word_list = [];
             }
             
 
@@ -1098,8 +1101,13 @@
         <!-- Edit page -->
         <div id="main_body" class="edit_class" style="display:none;">
             <header>
-                <div class="container" style="padding-top:20px; padding-left: 10px;">
+                <div class="container" style="padding-top:15px; padding-left: 10px; float:left;">
                     <button class="btn btn-primary" onclick="firstpage();" style="color:white;"><span class="glyphicon glyphicon-th-large"></span>&nbsp;<span style="font-size:16px;">返回主頁</span></button>
+                </div>
+                <div class="container" style="padding:20px 0px;">
+                    <span style="float:right; padding-right:20px; color:white; font-size:20px;" data-toggle="modal" data-target="#moreModal">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </span>
                 </div>
             </header>
 
@@ -1209,12 +1217,12 @@
                 <br><hr>
                 <div class="btn-group btn-group-justified" role="group" id="addword">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success" data-dismiss="modal" onclick="add(); add_history($('#words').val());"><span class="glyphicon glyphicon-plus"></span>&nbsp;確認及添加</button>
+                        <button class="btn btn-success" data-dismiss="modal" onclick="add(); add_history($('#word_sample').text());"><span class="glyphicon glyphicon-plus"></span>&nbsp;確認及添加</button>
                     </div>
                 </div>
                 <div class="btn-group btn-group-justified" role="group" id="editword">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success" data-dismiss="modal" onclick="update_modified(); add_history($('#words').val());"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認修改</button>
+                        <button class="btn btn-success" data-dismiss="modal" onclick="update_modified(); add_history($('#word_sample').text());"><span class="glyphicon glyphicon-ok"></span>&nbsp;確認修改</button>
                     </div>
                 </div>
               </div>
@@ -1442,7 +1450,7 @@
 
 
         <!-- photoModal -->
-        <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header mhead">
